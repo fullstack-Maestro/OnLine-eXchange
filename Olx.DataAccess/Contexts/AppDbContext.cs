@@ -6,14 +6,14 @@ namespace Olx.DataAccess.Contexts;
 
 public class AppDbContext : DbContext
 {
-    DbSet<User> Users;
-    DbSet<Category> Categories;
-    DbSet<Property> Properties;
-    DbSet<PropertyValue> PropertyValues;
-    DbSet<PostProperty> PostProperties;
-    DbSet<Post> Posts;
-    DbSet<FavouritePost> FavouritePosts;
-    DbSet<Message> Messages;
+    public DbSet<User> Users;
+    public DbSet<Category> Categories;
+    public DbSet<Property> Properties;
+    public DbSet<PropertyValue> PropertyValues;
+    public DbSet<PostProperty> PostProperties;
+    public DbSet<Post> Posts;
+    public DbSet<FavouritePost> FavouritePosts;
+    public DbSet<Message> Messages;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
