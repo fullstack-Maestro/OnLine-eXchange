@@ -2,11 +2,6 @@
 using Olx.DataAccess.Contexts;
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Olx.DataAccess.Repositories;
 
