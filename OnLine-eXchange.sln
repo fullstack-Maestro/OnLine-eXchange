@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olx.Domain", "Olx.Domain\Olx.Domain.csproj", "{F02D80A4-351D-49D5-BB81-8ED6E2058BEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Olx.Domain", "Olx.Domain\Olx.Domain.csproj", "{F02D80A4-351D-49D5-BB81-8ED6E2058BEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olx.Model", "Olx.Model\Olx.Model.csproj", "{96A6DEDA-2A77-4A8B-926C-EDF729EAB114}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olx.DataAccess", "Olx.DataAccess\Olx.DataAccess.csproj", "{C33194DF-2D70-486F-9AE6-D41290CB28C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olx.Service", "Olx.Service\Olx.Service.csproj", "{75B9E52D-4B24-4E1A-BAE8-04D8811D4473}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olx.WebApi", "Olx.WebApi\Olx.WebApi.csproj", "{73CFE9CB-6456-4CCE-AF4E-DCF199B98F3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{F02D80A4-351D-49D5-BB81-8ED6E2058BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F02D80A4-351D-49D5-BB81-8ED6E2058BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F02D80A4-351D-49D5-BB81-8ED6E2058BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A6DEDA-2A77-4A8B-926C-EDF729EAB114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A6DEDA-2A77-4A8B-926C-EDF729EAB114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A6DEDA-2A77-4A8B-926C-EDF729EAB114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A6DEDA-2A77-4A8B-926C-EDF729EAB114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C33194DF-2D70-486F-9AE6-D41290CB28C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C33194DF-2D70-486F-9AE6-D41290CB28C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C33194DF-2D70-486F-9AE6-D41290CB28C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C33194DF-2D70-486F-9AE6-D41290CB28C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75B9E52D-4B24-4E1A-BAE8-04D8811D4473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75B9E52D-4B24-4E1A-BAE8-04D8811D4473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75B9E52D-4B24-4E1A-BAE8-04D8811D4473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75B9E52D-4B24-4E1A-BAE8-04D8811D4473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73CFE9CB-6456-4CCE-AF4E-DCF199B98F3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73CFE9CB-6456-4CCE-AF4E-DCF199B98F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73CFE9CB-6456-4CCE-AF4E-DCF199B98F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73CFE9CB-6456-4CCE-AF4E-DCF199B98F3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
