@@ -6,7 +6,7 @@ public class Message : Auditable
 {
     public long SenderId { get; set; }
     public User Sender { get; set; }
-    public long RecieverId { get; set; } 
+    public long RecieverId { get; set; }
     public User Reciever { get; set; }
     public long PostId { get; set; }
     public Post Post { get; set; }
