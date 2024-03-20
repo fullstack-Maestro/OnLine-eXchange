@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Olx.DataAccess.Configurations;
+using Olx.Domain.Configurations;
 using Olx.Domain.Entities;
 
 namespace Olx.DataAccess.Contexts;
