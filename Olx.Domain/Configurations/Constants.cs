@@ -1,4 +1,4 @@
-﻿namespace Olx.DataAccess.Configurations;
+﻿namespace Olx.Domain.Configurations;
 
 public class Constants
 {
