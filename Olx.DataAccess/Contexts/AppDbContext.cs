@@ -1,21 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Olx.Domain.Commons;
+using Olx.DataAccess.Configurations;
 using Olx.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Olx.DataAccess.Contexts;
 
 public class AppDbContext : DbContext
 {
     DbSet<User> Users;
+    DbSet<Category> Categories;
+    DbSet<Property> Properties;
+    DbSet<PropertyValue> PropertyValues;
+    DbSet<PostProperty> PostProperties;
+    DbSet<Post> Posts;
+    DbSet<FavouritePost> FavouritePosts;
+    DbSet<Message> Messages;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
         Database.EnsureCreated();
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql(Constants.CONNECTION_STRING);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
