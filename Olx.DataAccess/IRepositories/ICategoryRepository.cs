@@ -7,7 +7,7 @@ namespace Olx.DataAccess.IRepositories
         void AddCategory(Category category);
         void DeleteCategory(Category category);
         Task<List<Category>> GetAllCategories();
-        Task<Category> GetCategoryById(int categoryId);
+        Task<Category> GetCategoryById(long categoryId);
         Task SaveChangesAsync();
         void UpdateCategory(Category category);
     }

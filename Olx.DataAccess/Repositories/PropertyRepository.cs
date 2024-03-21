@@ -14,29 +14,29 @@ public class PropertyRepository : IPropertyRepository
         _dbContext = dbContext;
     }
 
-    public async Task<Property> GetPropertyById(int propertyId)
+    public async Task<Property> GetPropertyById(long propertyId)
     {
-        return await _dbContext.Properties.FindAsync(propertyId);
+        return await _dbContext.Property.FindAsync(propertyId);
     }
 
     public async Task<List<Property>> GetAllProperties()
     {
-        return await _dbContext.Properties.ToListAsync();
+        return await _dbContext.Property.ToListAsync();
     }
 
     public void AddProperty(Property property)
     {
-        _dbContext.Properties.Add(property);
+        _dbContext.Property.Add(property);
     }
 
     public void UpdateProperty(Property property)
     {
-        _dbContext.Properties.Update(property);
+        _dbContext.Property.Update(property);
     }
 
     public void DeleteProperty(Property property)
     {
-        _dbContext.Properties.Remove(property);
+        _dbContext.Property.Remove(property);
     }
 
     public async Task SaveChangesAsync()

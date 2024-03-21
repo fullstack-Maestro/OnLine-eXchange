@@ -6,14 +6,14 @@ namespace Olx.DataAccess.Contexts;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<User> Users;
-    public DbSet<Category> Categories;
-    public DbSet<Property> Properties;
-    public DbSet<PropertyValue> PropertyValues;
-    public DbSet<PostProperty> PostProperties;
-    public DbSet<Post> Posts;
-    public DbSet<FavouritePost> FavouritePosts;
-    public DbSet<Message> Messages;
+    public DbSet<User> User { get; set; }
+    public DbSet<Category> Category { get; set; }
+    public DbSet<Property> Property { get; set; }
+    public DbSet<PropertyValue> PropertyValue { get; set; }
+    public DbSet<PostProperty> PostProperty { get; set; }
+    public DbSet<Post> Post { get; set; }
+    public DbSet<FavouritePost> FavouritePost { get; set; }
+    public DbSet<Message> Message { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -42,7 +42,7 @@ public class AppDbContext : DbContext
             .HasMaxLength(20);
 
         modelBuilder.Entity<User>()
-            .Property(u => u.Email)
+            .Property(u => u.Gmail)
             .IsRequired()
             .HasMaxLength(100);
 
@@ -62,7 +62,6 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .Property(u => u.ProfilePicture)
-            .IsRequired()
             .HasColumnType("bytea");
 
         modelBuilder.Entity<User>()

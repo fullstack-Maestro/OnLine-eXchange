@@ -7,7 +7,7 @@ namespace Olx.DataAccess.IRepositories
         void AddMessage(Message message);
         void DeleteMessage(Message message);
         Task<List<Message>> GetAllMessages();
-        Task<Message> GetMessageById(int messageId);
+        Task<Message> GetMessageById(long messageId);
         Task SaveChangesAsync();
         void UpdateMessage(Message message);
     }

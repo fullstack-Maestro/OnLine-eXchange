@@ -7,7 +7,7 @@ namespace Olx.DataAccess.IRepositories
         void AddPostProperty(PostProperty postProperty);
         void DeletePostProperty(PostProperty postProperty);
         Task<List<PostProperty>> GetAllPostProperties();
-        Task<PostProperty> GetPostPropertyById(int postPropertyId);
+        Task<PostProperty> GetPostPropertyById(long postPropertyId);
         Task SaveChangesAsync();
         void UpdatePostProperty(PostProperty postProperty);
     }
