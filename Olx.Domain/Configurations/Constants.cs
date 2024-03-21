@@ -2,5 +2,5 @@
 
 public class Constants
 {
-    public const string CONNECTION_STRING = "Server=tiny.db.elephantsql.com;Database=xwwrsort;User Id=xwwrsort;Password=TM7Va7MIzM5c3o2irLcfwatYRNtEoc3a";
+    public const string CONNECTION_STRING = "Host=localhost;Port=5432;Username=postgres;Password=0511;Database=OnLine-eXchange-db";
 }
