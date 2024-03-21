@@ -14,29 +14,29 @@ public class FavouritePostRepository : IFavouritePostRepository
         _dbContext = dbContext;
     }
 
-    public async Task<FavouritePost> GetFavouritePostById(int favouritePostId)
+    public async Task<FavouritePost> GetFavouritePostById(long favouritePostId)
     {
-        return await _dbContext.FavouritePosts.FindAsync(favouritePostId);
+        return await _dbContext.FavouritePost.FindAsync(favouritePostId);
     }
 
     public async Task<List<FavouritePost>> GetAllFavouritePosts()
     {
-        return await _dbContext.FavouritePosts.ToListAsync();
+        return await _dbContext.FavouritePost.ToListAsync();
     }
 
     public void AddFavouritePost(FavouritePost favouritePost)
     {
-        _dbContext.FavouritePosts.Add(favouritePost);
+        _dbContext.FavouritePost.Add(favouritePost);
     }
 
     public void UpdateFavouritePost(FavouritePost favouritePost)
     {
-        _dbContext.FavouritePosts.Update(favouritePost);
+        _dbContext.FavouritePost.Update(favouritePost);
     }
 
     public void DeleteFavouritePost(FavouritePost favouritePost)
     {
-        _dbContext.FavouritePosts.Remove(favouritePost);
+        _dbContext.FavouritePost.Remove(favouritePost);
     }
 
     public async Task SaveChangesAsync()

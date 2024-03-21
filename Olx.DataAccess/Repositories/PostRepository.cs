@@ -2,6 +2,7 @@
 using Olx.DataAccess.Contexts;
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
+using System.Runtime.CompilerServices;
 
 namespace Olx.DataAccess.Repositories;
 
@@ -14,29 +15,29 @@ public class PostRepository : IPostRepository
         _dbContext = dbContext;
     }
 
-    public async Task<Post> GetPostById(int postId)
+    public async Task<Post> GetPostById(long postId)
     {
-        return await _dbContext.Posts.FindAsync(postId);
+        return await _dbContext.Post.FindAsync(postId);
     }
 
     public async Task<List<Post>> GetAllPosts()
     {
-        return await _dbContext.Posts.ToListAsync();
+        return await _dbContext.Post.ToListAsync();
     }
 
     public void AddPost(Post post)
     {
-        _dbContext.Posts.Add(post);
+        _dbContext.Post.Add(post);
     }
 
     public void UpdatePost(Post post)
     {
-        _dbContext.Posts.Update(post);
+        _dbContext.Post.Update(post);
     }
 
     public void DeletePost(Post post)
     {
-        _dbContext.Posts.Remove(post);
+        _dbContext.Post.Remove(post);
     }
 
     public async Task SaveChangesAsync()

@@ -7,7 +7,8 @@ namespace Olx.DataAccess.IRepositories
         void AddUser(User user);
         void DeleteUser(User user);
         Task<List<User>> GetAllUsers();
-        Task<User> GetUserById(int userId);
+        Task<User> GetUserById(long userId);
+        Task<User> GetUserByGmail(string gmail);
         Task SaveChangesAsync();
         void UpdateUser(User user);
     }

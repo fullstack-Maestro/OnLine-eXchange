@@ -7,7 +7,7 @@ namespace Olx.DataAccess.IRepositories
         void AddFavouritePost(FavouritePost favouritePost);
         void DeleteFavouritePost(FavouritePost favouritePost);
         Task<List<FavouritePost>> GetAllFavouritePosts();
-        Task<FavouritePost> GetFavouritePostById(int favouritePostId);
+        Task<FavouritePost> GetFavouritePostById(long favouritePostId);
         Task SaveChangesAsync();
         void UpdateFavouritePost(FavouritePost favouritePost);
     }

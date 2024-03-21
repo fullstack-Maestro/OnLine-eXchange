@@ -14,29 +14,34 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    public async Task<User> GetUserById(int userId)
+    public async Task<User> GetUserByGmail(string gmail)
     {
-        return await _dbContext.Users.FindAsync(userId);
+        return await _dbContext.User.FirstOrDefaultAsync(u => u.Gmail == gmail);
+    }
+
+    public async Task<User> GetUserById(long userId)
+    {
+        return await _dbContext.User.FindAsync(userId);
     }
 
     public async Task<List<User>> GetAllUsers()
     {
-        return await _dbContext.Users.ToListAsync();
+        return await _dbContext.User.ToListAsync();
     }
 
     public void AddUser(User user)
     {
-        _dbContext.Users.Add(user);
+        _dbContext.User.Add(user);
     }
 
     public void UpdateUser(User user)
     {
-        _dbContext.Users.Update(user);
+        _dbContext.User.Update(user);
     }
 
     public void DeleteUser(User user)
     {
-        _dbContext.Users.Remove(user);
+        _dbContext.User.Remove(user);
     }
 
     public async Task SaveChangesAsync()

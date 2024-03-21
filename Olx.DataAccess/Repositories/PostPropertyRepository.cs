@@ -14,29 +14,29 @@ public class PostPropertyRepository : IPostPropertyRepository
         _dbContext = dbContext;
     }
 
-    public async Task<PostProperty> GetPostPropertyById(int postPropertyId)
+    public async Task<PostProperty> GetPostPropertyById(long postPropertyId)
     {
-        return await _dbContext.PostProperties.FindAsync(postPropertyId);
+        return await _dbContext.PostProperty.FindAsync(postPropertyId);
     }
 
     public async Task<List<PostProperty>> GetAllPostProperties()
     {
-        return await _dbContext.PostProperties.ToListAsync();
+        return await _dbContext.PostProperty.ToListAsync();
     }
 
     public void AddPostProperty(PostProperty postProperty)
     {
-        _dbContext.PostProperties.Add(postProperty);
+        _dbContext.PostProperty.Add(postProperty);
     }
 
     public void UpdatePostProperty(PostProperty postProperty)
     {
-        _dbContext.PostProperties.Update(postProperty);
+        _dbContext.PostProperty.Update(postProperty);
     }
 
     public void DeletePostProperty(PostProperty postProperty)
     {
-        _dbContext.PostProperties.Remove(postProperty);
+        _dbContext.PostProperty.Remove(postProperty);
     }
 
     public async Task SaveChangesAsync()
