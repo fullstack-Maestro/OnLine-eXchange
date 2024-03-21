@@ -1,6 +1,4 @@
 using Olx.DataAccess.Contexts;
-using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
