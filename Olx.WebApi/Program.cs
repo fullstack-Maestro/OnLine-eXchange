@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.Contexts;
 using Olx.DataAccess.IRepositories;
 using Olx.DataAccess.Repositories;
