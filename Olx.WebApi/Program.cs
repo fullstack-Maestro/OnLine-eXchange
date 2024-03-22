@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.Contexts;
+using Olx.DataAccess.Repositories;
 using Olx.Domain.Configurations;
+using Olx.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,7 @@ appDbContext.Database.Migrate();
 
 builder.Services.AddDbContext<AppDbContext>();
 // Add the following line in the ConfigureServices method of your Startup class
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
 
 // Add the following line in the ConfigureServices method of your Startup class
 var app = builder.Build();
