@@ -18,7 +18,7 @@ public class FavouritePostsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<FavouritePostViewDto>>> GetAllFavouritePosts()
+    public ActionResult<List<FavouritePostViewDto>> GetAllFavouritePosts()
     {
         var favouritePosts = _favouritePostRepository.SelectAllAsEnumerable()
             .Where(favouritePost => !favouritePost.IsDeleted)

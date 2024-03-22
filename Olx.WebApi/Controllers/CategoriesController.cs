@@ -19,7 +19,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<CategoryViewDto>>> GetAllCategories()
+    public ActionResult<List<CategoryViewDto>> GetAllCategories()
     {
         var categories = _categoryRepository.SelectAllAsEnumerable()
             .Where(category => !category.IsDeleted)

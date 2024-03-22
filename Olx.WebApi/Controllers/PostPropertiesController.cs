@@ -18,7 +18,7 @@ public class PostPropertiesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<PostPropertyViewDto>>> GetAllPostProperties()
+    public ActionResult<List<PostPropertyViewDto>> GetAllPostProperties()
     {
         var postProperties = _postPropertyRepository.SelectAllAsEnumerable()
             .Where(postProperty => !postProperty.IsDeleted)
