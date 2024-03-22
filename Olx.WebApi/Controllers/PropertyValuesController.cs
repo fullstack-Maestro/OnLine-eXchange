@@ -15,7 +15,7 @@ public class PropertyValuesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<PropertyValueViewDto>>> GetAllPropertyValues()
+    public ActionResult<List<PropertyValueViewDto>> GetAllPropertyValues()
     {
         var propertyValues = _propertyValueRepository.SelectAllAsEnumerable()
             .Where(propertyValue => !propertyValue.IsDeleted)

@@ -18,7 +18,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<UserViewDto>>> GetAllUsers()
+    public ActionResult<List<UserViewDto>> GetAllUsers()
     {
         var users = _userRepository.SelectAllAsEnumerable()
             .Where(user => !user.IsDeleted)

@@ -18,7 +18,7 @@ public class MessagesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<MessageViewDto>>> GetAllMessages()
+    public ActionResult<List<MessageViewDto>> GetAllMessages()
     {
         var messages = _messageRepository.SelectAllAsEnumerable()
             .Where(message => !message.IsDeleted)
