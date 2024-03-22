@@ -1,6 +1,6 @@
 namespace Olx.Service.DTOs.PropertyValues;
 
-public class PropertyValueUpdateDti
+public class PropertyValueUpdateDto
 {
     public string Value { get; set; }
 }
