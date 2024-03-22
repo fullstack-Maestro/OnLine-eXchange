@@ -18,10 +18,17 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<User>>> GetAllUsers()
+    public async Task<ActionResult<List<UserViewDto>>> GetAllUsers()
     {
-        var users = _userRepository.SelectAllAsEnumerable();
-        return Ok(users);
+        var users = _userRepository.SelectAllAsEnumerable()
+            .Where(user => !user.IsDeleted)
+            .ToList();
+        List<UserViewDto> viewDtos = new List<UserViewDto>();
+        foreach (var user in users)
+        {
+            viewDtos.Add(user.MapTo<UserViewDto>());
+        }
+        return Ok(viewDtos);
     }
 
     [HttpGet("{Id}")]
@@ -70,5 +77,19 @@ public class UsersController : ControllerBase
         await _userRepository.SaveAsync();
 
         return Ok(existingUser);
+    }
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteUser(long id)
+    {
+        var existingUser = await _userRepository.SelectByIdAsync(id);
+        if (existingUser == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        await _userRepository.DeleteAsync(existingUser);
+        await _userRepository.SaveAsync();
+
+        return NoContent();
     }
 }

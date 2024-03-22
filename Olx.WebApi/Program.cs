@@ -21,8 +21,16 @@ AppDbContext appDbContext = new AppDbContext(optionsBuilder.Options);
 appDbContext.Database.Migrate();
 
 builder.Services.AddDbContext<AppDbContext>();
+
 // Add the following line in the ConfigureServices method of your Startup class
 builder.Services.AddScoped<IRepository<User>, Repository<User>>();
+builder.Services.AddScoped<IRepository<Post>, Repository<Post>>();
+builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
+builder.Services.AddScoped<IRepository<Property>, Repository<Property>>();
+builder.Services.AddScoped<IRepository<PropertyValue>, Repository<PropertyValue>>();
+builder.Services.AddScoped<IRepository<PostProperty>, Repository<PostProperty>>();
+builder.Services.AddScoped<IRepository<Message>, Repository<Message>>();
+builder.Services.AddScoped<IRepository<FavouritePost>, Repository<FavouritePost>>();
 
 // Add the following line in the ConfigureServices method of your Startup class
 var app = builder.Build();
