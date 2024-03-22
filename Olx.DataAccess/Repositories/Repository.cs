@@ -21,12 +21,14 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
 
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {
+        entity.UpdatedAt = DateTime.UtcNow;
         entities.Entry(entity).State = EntityState.Modified;
         return await Task.FromResult(entity);
     }
 
     public async Task<TEntity> DeleteAsync(TEntity entity)
     {
+        entity.IsDeleted = true;
         entities.Entry(entity).State = EntityState.Modified;
         return await Task.FromResult(entity);
     }
