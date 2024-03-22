@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Posts;
-using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 
 namespace Olx.WebApi.Controllers

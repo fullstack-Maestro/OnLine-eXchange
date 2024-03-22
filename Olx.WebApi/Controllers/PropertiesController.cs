@@ -4,9 +4,6 @@ using Olx.Domain.Entities;
 using Olx.Service.DTOs.Properties;
 using Olx.Service.Extentions;
 
-
-
-
 namespace Olx.WebApi.Controllers;
 
 [Route("api/[controller]")]

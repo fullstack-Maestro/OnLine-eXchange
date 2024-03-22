@@ -2,7 +2,6 @@
 using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Categories;
-using Olx.Service.DTOs.Properties;
 using Olx.Service.Extentions;
 
 
