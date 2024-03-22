@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Users;
+using Olx.Service.Extentions;
 
 namespace Olx.WebApi.Controllers;
 
@@ -8,9 +10,9 @@ namespace Olx.WebApi.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IRepository<User> _userRepository;
 
-    public UsersController(IUserRepository userRepository)
+    public UsersController(IRepository<User> userRepository)
     {
         _userRepository = userRepository;
     }
@@ -18,34 +20,36 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<User>>> GetAllUsers()
     {
-        var users = await _userRepository.GetAllUsers();
+        var users = _userRepository.SelectAllAsEnumerable();
         return Ok(users);
     }
 
     [HttpGet("{Id}")]
-    public async Task<ActionResult<User>> GetUserById(long Id)
+    public async Task<ActionResult<UserViewDto>> GetUserById(long Id)
     {
-        var user = await _userRepository.GetUserById(Id);
+        var user = await _userRepository.SelectByIdAsync(Id);
         if (user == null)
         {
             return NotFound("User not found.");
         }
-        return Ok(user);
+        var userView = user.MapTo<UserViewDto>();
+        return Ok(userView);
     }
 
     [HttpPost]
-    public async Task<ActionResult<User>> AddUser(User user)
+    public async Task<ActionResult<User>> AddUser(UserCreateDto createUser)
     {
-        _userRepository.AddUser(user);
-        await _userRepository.SaveChangesAsync();
+        var user = createUser.MapTo<User>();
+        await _userRepository.InsertAsync(user);
+        await _userRepository.SaveAsync();
 
-        return Ok(user);
+        return Ok(createUser);
     }
 
-    [HttpPut("{gmail}/{password}")]
-    public async Task<ActionResult<User>> UpdateUser(string gmail, string password, UserUpdateDto userInput)
+    [HttpPut("{id}/{password}")]
+    public async Task<ActionResult<User>> UpdateUser(long id, string password, UserUpdateDto userInput)
     {
-        var existingUser = await _userRepository.GetUserByGmail(gmail);
+        var existingUser = await _userRepository.SelectByIdAsync(id);
         if (existingUser == null)
         {
             return NotFound("User not found.");
@@ -63,7 +67,7 @@ public class UsersController : ControllerBase
         existingUser.Password = userInput.Password;
 
         // Save the changes to the database
-        await _userRepository.SaveChangesAsync();
+        await _userRepository.SaveAsync();
 
         return Ok(existingUser);
     }
