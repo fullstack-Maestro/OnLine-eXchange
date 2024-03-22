@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Olx.DataAccess\Olx.DataAccess.csproj" />
+    <ProjectReference Include="..\Olx.Domain\Olx.Domain.csproj" />
+    <ProjectReference Include="..\Olx.Service\Olx.Service.csproj" />
+  </ItemGroup>
+
 </Project>
