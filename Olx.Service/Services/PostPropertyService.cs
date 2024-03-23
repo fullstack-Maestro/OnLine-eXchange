@@ -2,6 +2,7 @@
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.PostProperties;
+using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
 
@@ -23,7 +24,7 @@ public class PostPropertyService : IPostPropertyService
             return await UpdateAsync(existPostProperty.Id, postProperty.MapTo<PostPropertyUpdateDto>(), true);
 
         if (existPostProperty != null)
-            throw new Exception("Already exist");
+            throw new CustomException(409, "PostProperty already exist");
 
         var createUser = await postPropertyRepository.InsertAsync(existPostProperty);
         await postPropertyRepository.SaveAsync();
@@ -34,7 +35,7 @@ public class PostPropertyService : IPostPropertyService
     public async Task<bool> DeleteAsync(long id)
     {
         var existPostProperty = await postPropertyRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "PostProperty not found");
 
         existPostProperty.IsDeleted = true;
         existPostProperty.DeletedAt = DateTime.UtcNow;
@@ -52,9 +53,8 @@ public class PostPropertyService : IPostPropertyService
 
     public async Task<PostPropertyViewDto> GetByIdAsync(long id)
     {
-
         var existPostProperty = await postPropertyRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "PostProperty not found");
 
         return existPostProperty.MapTo<PostPropertyViewDto>();
     }

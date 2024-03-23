@@ -2,6 +2,7 @@
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.FavouritePosts;
+using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
 
@@ -23,18 +24,18 @@ public class FavourtePostService : IFavouritePostService
             return await UpdateAsync(existFavouritePost.Id, favouritePost.MapTo<FavouritePostUpdateDto>(), true);
 
         if (existFavouritePost != null)
-            throw new Exception("Already exist");
+            throw new CustomException(409, "FavouritePost already exist");
 
-        var createUser = await favouritePostRepository.InsertAsync(existFavouritePost);
+        var createFavouritePost = await favouritePostRepository.InsertAsync(existFavouritePost);
         await favouritePostRepository.SaveAsync();
 
-        return createUser.MapTo<FavouritePostViewDto>();
+        return createFavouritePost.MapTo<FavouritePostViewDto>();
     }
 
     public async Task<bool> DeleteAsync(long id)
     {
         var existFavouritePost = await favouritePostRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "FavouritePost not found");
 
         existFavouritePost.IsDeleted = true;
         existFavouritePost.DeletedAt = DateTime.UtcNow;
@@ -52,9 +53,8 @@ public class FavourtePostService : IFavouritePostService
 
     public async Task<FavouritePostViewDto> GetByIdAsync(long id)
     {
-
         var existFavouritePost = await favouritePostRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "FavouritePost not found");
 
         return existFavouritePost.MapTo<FavouritePostViewDto>();
     }

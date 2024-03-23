@@ -2,6 +2,7 @@
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Messages;
+using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
 
@@ -25,7 +26,7 @@ public class MessageService : IMessageService
     public async Task<bool> DeleteAsync(long id)
     {
         var existMessage = await messageRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "Message not found");
 
         existMessage.IsDeleted = true;
         existMessage.DeletedAt = DateTime.UtcNow;
@@ -45,7 +46,7 @@ public class MessageService : IMessageService
     {
 
         var existMessage = await messageRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+           ?? throw new CustomException(404, "Message not found");
 
         return existMessage.MapTo<MessageViewDto>();
     }
