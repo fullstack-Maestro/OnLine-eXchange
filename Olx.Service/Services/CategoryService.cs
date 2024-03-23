@@ -2,6 +2,7 @@
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Categories;
+using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
 
@@ -23,7 +24,7 @@ public class CategoryService : ICategoryService
             return await UpdateAsync(existCategory.Id, category.MapTo<CategoryUpdateDto>(), true);
 
         if (existCategory != null)
-            throw new Exception("Already exist");
+            throw new CustomException(409, "Category already exist");
 
         var createUser = await categoryRepository.InsertAsync(existCategory);
         await categoryRepository.SaveAsync();
@@ -34,7 +35,7 @@ public class CategoryService : ICategoryService
     public async Task<bool> DeleteAsync(long id)
     {
         var existCategory = await categoryRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "Category not found");
 
         existCategory.IsDeleted = true;
         existCategory.DeletedAt = DateTime.UtcNow;
@@ -52,9 +53,8 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryViewDto> GetByIdAsync(long id)
     {
-
         var existCategory = await categoryRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "Category not found");
 
         return existCategory.MapTo<CategoryViewDto>();
     }

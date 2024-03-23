@@ -2,6 +2,7 @@
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Users;
+using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
 
@@ -23,7 +24,7 @@ public class UserService : IUserService
             return await UpdateAsync(existUser.Id, user.MapTo<UserUpdateDto>(), true);
 
         if (existUser != null)
-            throw new Exception("Already exist");
+            throw new CustomException(409, "User already exist");
 
         var createUser = await userRepository.InsertAsync(existUser);
         await userRepository.SaveAsync();
@@ -34,7 +35,7 @@ public class UserService : IUserService
     public async Task<bool> DeleteAsync(long id)
     {
         var existUser = await userRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "User not found");
 
         existUser.IsDeleted = true;
         existUser.DeletedAt = DateTime.UtcNow;
@@ -52,9 +53,8 @@ public class UserService : IUserService
 
     public async Task<UserViewDto> GetByIdAsync(long id)
     {
-
         var existUser = await userRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "User not found");
 
         return existUser.MapTo<UserViewDto>();
     }

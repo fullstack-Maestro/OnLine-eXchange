@@ -2,6 +2,7 @@
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Properties;
+using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
 
@@ -23,7 +24,7 @@ public class PropertyService : IPropertyService
             return await UpdateAsync(existProperty.Id, property.MapTo<PropertyUpdateDto>(), true);
 
         if (existProperty != null)
-            throw new Exception("Already exist");
+            throw new CustomException(409, "Property already exist");
 
         var createProperty = await propertyRepository.InsertAsync(existProperty);
         await propertyRepository.SaveAsync();
@@ -34,7 +35,7 @@ public class PropertyService : IPropertyService
     public async Task<bool> DeleteAsync(long id)
     {
         var existProperty = await propertyRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "Property not found");
 
         existProperty.IsDeleted = true;
         existProperty.DeletedAt = DateTime.UtcNow;
@@ -54,7 +55,7 @@ public class PropertyService : IPropertyService
     {
 
         var existProperty = await propertyRepository.SelectByIdAsync(id)
-            ?? throw new Exception("Not found");
+            ?? throw new CustomException(404, "Property not found");
 
         return existProperty.MapTo<PropertyViewDto>();
     }
