@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.FavouritePosts;
-using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
-using System.ComponentModel.Design;
 
 namespace Olx.Service.Services;
 
@@ -29,7 +26,7 @@ public class FavourtePostService : IFavouritePostService
             throw new Exception("Already exist");
 
         var createUser = await favouritePostRepository.InsertAsync(existFavouritePost);
-        await favouritePostRepository.SaveChangesAsync();
+        await favouritePostRepository.SaveAsync();
 
         return createUser.MapTo<FavouritePostViewDto>();
     }
@@ -43,7 +40,7 @@ public class FavourtePostService : IFavouritePostService
         existFavouritePost.DeletedAt = DateTime.UtcNow;
 
         await favouritePostRepository.DeleteAsync(existFavouritePost);
-        await favouritePostRepository.SaveChangesAsync();
+        await favouritePostRepository.SaveAsync();
 
         return true;
     }
@@ -79,7 +76,7 @@ public class FavourtePostService : IFavouritePostService
         existFavouritePost.UpdatedAt = DateTime.UtcNow;
 
         await favouritePostRepository.UpdateAsync(existFavouritePost);
-        await favouritePostRepository.SaveChangesAsync();
+        await favouritePostRepository.SaveAsync();
 
         return existFavouritePost.MapTo<FavouritePostViewDto>();
     }

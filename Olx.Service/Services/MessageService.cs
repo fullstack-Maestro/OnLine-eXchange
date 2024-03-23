@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
-using Olx.Service.DTOs.Categories;
 using Olx.Service.DTOs.Messages;
-using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
-using System.ComponentModel.Design;
 
 namespace Olx.Service.Services;
 
@@ -21,7 +17,7 @@ public class MessageService : IMessageService
     public async Task<MessageViewDto> CreateAsync(MessageCreateDto message)
     {
         var createUser = await messageRepository.InsertAsync(message.MapTo<Message>());
-        await messageRepository.SaveChangesAsync();
+        await messageRepository.SaveAsync();
 
         return createUser.MapTo<MessageViewDto>();
     }
@@ -35,7 +31,7 @@ public class MessageService : IMessageService
         existMessage.DeletedAt = DateTime.UtcNow;
 
         await messageRepository.DeleteAsync(existMessage);
-        await messageRepository.SaveChangesAsync();
+        await messageRepository.SaveAsync();
 
         return true;
     }
@@ -73,7 +69,7 @@ public class MessageService : IMessageService
         existMessage.UpdatedAt = DateTime.UtcNow;
 
         await messageRepository.UpdateAsync(existMessage);
-        await messageRepository.SaveChangesAsync();
+        await messageRepository.SaveAsync();
 
         return existMessage.MapTo<MessageViewDto>();
     }

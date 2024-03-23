@@ -17,6 +17,7 @@ public interface IPostPropertyService
     /// <param name="id"></param>
     /// <param name="post"></param>
     /// <returns></returns>
+
     Task<PostPropertyViewDto> UpdateAsync(long id, PostPropertyUpdateDto post, bool isDeleted = false);
 
     /// <summary>

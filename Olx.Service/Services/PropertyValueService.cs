@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.PropertyValues;
-using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
-using System.ComponentModel.Design;
 
 namespace Olx.Service.Services;
 
@@ -20,7 +17,7 @@ public class PropertyValueService : IPropertyValueService
     public async Task<PropertyValueViewDto> CreateAsync(PropertyValueCreateDto propertyValue)
     {
         var createPropertyValue = await propertyValueRepository.InsertAsync(propertyValue.MapTo<PropertyValue>());
-        await propertyValueRepository.SaveChangesAsync();
+        await propertyValueRepository.SaveAsync();
 
         return createPropertyValue.MapTo<PropertyValueViewDto>();
     }
@@ -34,7 +31,7 @@ public class PropertyValueService : IPropertyValueService
         existPropertyValue.DeletedAt = DateTime.UtcNow;
 
         await propertyValueRepository.DeleteAsync(existPropertyValue);
-        await propertyValueRepository.SaveChangesAsync();
+        await propertyValueRepository.SaveAsync();
 
         return true;
     }
@@ -69,7 +66,7 @@ public class PropertyValueService : IPropertyValueService
         existPropertyValue.UpdatedAt = DateTime.UtcNow;
 
         await propertyValueRepository.UpdateAsync(existPropertyValue);
-        await propertyValueRepository.SaveChangesAsync();
+        await propertyValueRepository.SaveAsync();
 
         return existPropertyValue.MapTo<PropertyValueViewDto>();
     }

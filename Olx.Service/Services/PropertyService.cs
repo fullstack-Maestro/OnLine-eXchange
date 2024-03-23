@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Properties;
-using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
-using System.ComponentModel.Design;
 
 namespace Olx.Service.Services;
 
@@ -21,7 +18,7 @@ public class PropertyService : IPropertyService
     {
         var existProperty = await propertyRepository
                               .SelectAllAsQueryable()
-                              .FirstOrDefaultAsync(p => p.Name == property.Name && p.CategoryId == property.CategoryId );
+                              .FirstOrDefaultAsync(p => p.Name == property.Name && p.CategoryId == property.CategoryId);
         if (existProperty != null && existProperty.IsDeleted)
             return await UpdateAsync(existProperty.Id, property.MapTo<PropertyUpdateDto>(), true);
 
@@ -29,9 +26,9 @@ public class PropertyService : IPropertyService
             throw new Exception("Already exist");
 
         var createProperty = await propertyRepository.InsertAsync(existProperty);
-        await propertyRepository.SaveChangesAsync();
+        await propertyRepository.SaveAsync();
 
-        return createUser.MapTo<PropertyViewDto>();
+        return createProperty.MapTo<PropertyViewDto>();
     }
 
     public async Task<bool> DeleteAsync(long id)
@@ -43,7 +40,7 @@ public class PropertyService : IPropertyService
         existProperty.DeletedAt = DateTime.UtcNow;
 
         await propertyRepository.DeleteAsync(existProperty);
-        await propertyRepository.SaveChangesAsync();
+        await propertyRepository.SaveAsync();
 
         return true;
     }
@@ -79,7 +76,7 @@ public class PropertyService : IPropertyService
         existProperty.UpdatedAt = DateTime.UtcNow;
 
         await propertyRepository.UpdateAsync(existProperty);
-        await propertyRepository.SaveChangesAsync();
+        await propertyRepository.SaveAsync();
 
         return existProperty.MapTo<PropertyViewDto>();
     }

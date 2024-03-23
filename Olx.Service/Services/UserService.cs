@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
-using System.ComponentModel.Design;
 
 namespace Olx.Service.Services;
 
@@ -28,7 +26,7 @@ public class UserService : IUserService
             throw new Exception("Already exist");
 
         var createUser = await userRepository.InsertAsync(existUser);
-        await userRepository.SaveChangesAsync();
+        await userRepository.SaveAsync();
 
         return createUser.MapTo<UserViewDto>();
     }
@@ -42,7 +40,7 @@ public class UserService : IUserService
         existUser.DeletedAt = DateTime.UtcNow;
 
         await userRepository.DeleteAsync(existUser);
-        await userRepository.SaveChangesAsync();
+        await userRepository.SaveAsync();
 
         return true;
     }
@@ -65,7 +63,7 @@ public class UserService : IUserService
     {
         var existUser = new User();
 
-        if(isDeleted)
+        if (isDeleted)
         {
             existUser = await userRepository
                               .SelectAllAsQueryable()
@@ -82,7 +80,7 @@ public class UserService : IUserService
         existUser.ProfilePicture = user.ProfilePicture;
 
         await userRepository.UpdateAsync(existUser);
-        await userRepository.SaveChangesAsync();
+        await userRepository.SaveAsync();
 
         return existUser.MapTo<UserViewDto>();
     }
