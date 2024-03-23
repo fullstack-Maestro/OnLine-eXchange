@@ -1,95 +1,80 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Olx.DataAccess.IRepositories;
-using Olx.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Olx.Service.DTOs.Users;
-using Olx.Service.Extentions;
+using Olx.Service.Interfaces;
+using Olx.Service.DTOs.PropertyValues;
+using Olx.Service.Services;
 
-namespace Olx.WebApi.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class UsersController : ControllerBase
+namespace Olx.WebApi.Controllers
 {
-    private readonly IRepository<User> _userRepository;
-
-    public UsersController(IRepository<User> userRepository)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
     {
-        _userRepository = userRepository;
-    }
+        private readonly IUserService _userService;
 
-    [HttpGet]
-    public ActionResult<List<UserViewDto>> GetAllUsers()
-    {
-        var users = _userRepository.SelectAllAsEnumerable()
-            .Where(user => !user.IsDeleted)
-            .ToList();
-        List<UserViewDto> viewDtos = new List<UserViewDto>();
-        foreach (var user in users)
+        public UsersController(IUserService userService)
         {
-            viewDtos.Add(user.MapTo<UserViewDto>());
-        }
-        return Ok(viewDtos);
-    }
-
-    [HttpGet("{Id}")]
-    public async Task<ActionResult<UserViewDto>> GetUserById(long Id)
-    {
-        var user = await _userRepository.SelectByIdAsync(Id);
-        if (user == null)
-        {
-            return NotFound("User not found.");
-        }
-        var userView = user.MapTo<UserViewDto>();
-        return Ok(userView);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<User>> AddUser(UserCreateDto createUser)
-    {
-        var user = createUser.MapTo<User>();
-        await _userRepository.InsertAsync(user);
-        await _userRepository.SaveAsync();
-
-        return Ok(createUser);
-    }
-
-    [HttpPut("{id}/{password}")]
-    public async Task<ActionResult<User>> UpdateUser(long id, string password, UserUpdateDto userInput)
-    {
-        var existingUser = await _userRepository.SelectByIdAsync(id);
-        if (existingUser == null)
-        {
-            return NotFound("User not found.");
+            _userService = userService;
         }
 
-        if (existingUser.Password != password)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserViewDto>>> GetAllUsers()
         {
-            return Unauthorized("Invalid password.");
+            var users = await _userService.GetAllAsync();
+            return Ok(users);
         }
 
-        // Update the user's information based on the userInput
-        existingUser.Name = userInput.Name;
-        existingUser.PhoneNumber = userInput.PhoneNumber;
-        existingUser.Gmail = userInput.Gmail;
-        existingUser.Password = userInput.Password;
-
-        // Save the changes to the database
-        await _userRepository.SaveAsync();
-
-        return Ok(existingUser);
-    }
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteUser(long id)
-    {
-        var existingUser = await _userRepository.SelectByIdAsync(id);
-        if (existingUser == null)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserViewDto>> GetUserById(long id)
         {
-            return NotFound("User not found.");
+            var user = await _userService.GetByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(user);
         }
 
-        await _userRepository.DeleteAsync(existingUser);
-        await _userRepository.SaveAsync();
+        [HttpPost]
+        public async Task<ActionResult<UserViewDto>> AddUser(UserCreateDto userCreateDto)
+        {
+            try
+            {
+                var addedUser = await _userService.CreateAsync(userCreateDto);
+                return Ok(addedUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        return NoContent();
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UserViewDto>> UpdateUser(long id, UserUpdateDto userUpdateDto)
+        {
+            var updatedUser = await _userService.UpdateAsync(id, userUpdateDto);
+            if (updatedUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(updatedUser);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(long id)
+        {
+            var isDeleted = await _userService.DeleteAsync(id);
+            if (!isDeleted)
+            {
+                return NotFound("User not found.");
+            }
+
+            return NoContent();
+        }
     }
 }

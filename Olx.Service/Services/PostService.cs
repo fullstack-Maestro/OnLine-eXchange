@@ -26,6 +26,7 @@ public class PostService : IPostService
         if (existPost != null)
             throw new CustomException(409, "Post already exist");
 
+        existPost = post.MapTo<Post>();
         var createUser = await postRepository.InsertAsync(existPost);
         await postRepository.SaveAsync();
 
@@ -48,7 +49,9 @@ public class PostService : IPostService
 
     public async Task<IEnumerable<PostViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(postRepository.SelectAllAsQueryable().MapTo<PostViewDto>());
+        return await Task.FromResult(postRepository.SelectAllAsQueryable()
+            .Where(c => !c.IsDeleted)
+            .MapTo<PostViewDto>());
     }
 
     public async Task<PostViewDto> GetByIdAsync(long id)

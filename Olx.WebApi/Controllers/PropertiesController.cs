@@ -1,86 +1,79 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Olx.DataAccess.IRepositories;
-using Olx.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Olx.Service.DTOs.Properties;
-using Olx.Service.Extentions;
+using Olx.Service.Interfaces;
+using Olx.Service.Services;
 
-namespace Olx.WebApi.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class PropertiesController : ControllerBase
+namespace Olx.WebApi.Controllers
 {
-    private readonly IRepository<Property> _propertyRepository;
-
-    public PropertiesController(IRepository<Property> propertyRepository)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PropertiesController : ControllerBase
     {
-        _propertyRepository = propertyRepository;
-    }
+        private readonly IPropertyService _propertyService;
 
-    [HttpGet]
-    public ActionResult<List<PropertyViewDto>> GetAllProperties()
-    {
-        var properties = _propertyRepository.SelectAllAsEnumerable()
-            .Where(property => !property.IsDeleted)
-            .ToList();
-        var propertyViewDtos = properties.Select(property => property.MapTo<PropertyViewDto>()).ToList();
-        return Ok(propertyViewDtos);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<PropertyViewDto>> GetPropertyById(long id)
-    {
-        var property = await _propertyRepository.SelectByIdAsync(id);
-        if (property == null)
+        public PropertiesController(IPropertyService propertyService)
         {
-            return NotFound("Property not found.");
+            _propertyService = propertyService;
         }
 
-        var propertyDto = property.MapTo<PropertyViewDto>();
-        return Ok(propertyDto);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<PropertyViewDto>> AddProperty(PropertyCreateDto propertyCreateDto)
-    {
-        var property = propertyCreateDto.MapTo<Property>();
-        var addedProperty = await _propertyRepository.InsertAsync(property);
-        await _propertyRepository.SaveAsync();
-
-        var propertyDto = addedProperty.MapTo<PropertyViewDto>();
-        return Ok(propertyDto);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<ActionResult<PropertyViewDto>> UpdateProperty(long id, PropertyUpdateDto propertyUpdateDto)
-    {
-        var existingProperty = await _propertyRepository.SelectByIdAsync(id);
-        if (existingProperty == null)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PropertyViewDto>>> GetAllProperties()
         {
-            return NotFound("Property not found.");
+            var properties = await _propertyService.GetAllAsync();
+            return Ok(properties);
         }
 
-        existingProperty.Name = propertyUpdateDto.Name;
-
-        var updatedProperty = await _propertyRepository.UpdateAsync(existingProperty);
-        await _propertyRepository.SaveAsync();
-
-        var propertyDto = updatedProperty.MapTo<PropertyViewDto>();
-        return Ok(propertyDto);
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteProperty(long id)
-    {
-        var existingProperty = await _propertyRepository.SelectByIdAsync(id);
-        if (existingProperty == null)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PropertyViewDto>> GetPropertyById(long id)
         {
-            return NotFound("Property not found.");
+            var property = await _propertyService.GetByIdAsync(id);
+            if (property == null)
+            {
+                return NotFound("Property not found.");
+            }
+
+            return Ok(property);
         }
 
-        await _propertyRepository.DeleteAsync(existingProperty);
-        await _propertyRepository.SaveAsync();
+        [HttpPost]
+        public async Task<ActionResult<PropertyViewDto>> AddProperty(PropertyCreateDto propertyCreateDto)
+        {
+            try
+            {
+                var addedProperty = await _propertyService.CreateAsync(propertyCreateDto);
+                return Ok(addedProperty);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        return NoContent();
+        [HttpPut("{id}")]
+        public async Task<ActionResult<PropertyViewDto>> UpdateProperty(long id, PropertyUpdateDto propertyUpdateDto)
+        {
+            var updatedProperty = await _propertyService.UpdateAsync(id, propertyUpdateDto);
+            if (updatedProperty == null)
+            {
+                return NotFound("Property not found.");
+            }
+
+            return Ok(updatedProperty);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProperty(long id)
+        {
+            var isDeleted = await _propertyService.DeleteAsync(id);
+            if (!isDeleted)
+            {
+                return NotFound("Property not found.");
+            }
+
+            return NoContent();
+        }
     }
 }
