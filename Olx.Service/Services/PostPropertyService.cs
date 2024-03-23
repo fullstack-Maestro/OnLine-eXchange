@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Olx.DataAccess.IRepositories;
 using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.PostProperties;
