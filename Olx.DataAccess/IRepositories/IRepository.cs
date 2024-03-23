@@ -49,5 +49,4 @@ public interface IRepository<TEntity> where TEntity : Auditable
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task SaveAsync();
-    Task SaveChangesAsync();
 }
