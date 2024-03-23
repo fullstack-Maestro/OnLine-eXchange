@@ -39,7 +39,9 @@ public class MessageService : IMessageService
 
     public async Task<IEnumerable<MessageViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(messageRepository.SelectAllAsQueryable().MapTo<MessageViewDto>());
+        return await Task.FromResult(messageRepository.SelectAllAsQueryable()
+            .Where(c => !c.IsDeleted)
+            .MapTo<MessageViewDto>());
     }
 
     public async Task<MessageViewDto> GetByIdAsync(long id)

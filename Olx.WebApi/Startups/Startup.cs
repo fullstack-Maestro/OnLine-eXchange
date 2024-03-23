@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Olx.DataAccess.Contexts;
 using Olx.DataAccess.IRepositories;
 using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
+using Olx.Service.Interfaces;
+using Olx.Service.Services;
 
 namespace Olx.WebApi.Startups
 {
@@ -34,6 +38,16 @@ namespace Olx.WebApi.Startups
             services.AddScoped<IRepository<PostProperty>, Repository<PostProperty>>();
             services.AddScoped<IRepository<Message>, Repository<Message>>();
             services.AddScoped<IRepository<FavouritePost>, Repository<FavouritePost>>();
+
+            // Register services
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPropertyValueService, PropertyValueService>();
+            services.AddScoped<IPropertyService, PropertyService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IPostPropertyService, PostPropertyService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IFavouritePostService, FavouritePostService>();
 
             // Configure Swagger
             services.AddSwaggerGen(c =>

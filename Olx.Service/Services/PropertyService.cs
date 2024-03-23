@@ -26,6 +26,7 @@ public class PropertyService : IPropertyService
         if (existProperty != null)
             throw new CustomException(409, "Property already exist");
 
+        existProperty = property.MapTo<Property>();
         var createProperty = await propertyRepository.InsertAsync(existProperty);
         await propertyRepository.SaveAsync();
 
@@ -48,7 +49,9 @@ public class PropertyService : IPropertyService
 
     public async Task<IEnumerable<PropertyViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(propertyRepository.SelectAllAsQueryable().MapTo<PropertyViewDto>());
+        return await Task.FromResult(propertyRepository.SelectAllAsQueryable()
+            .Where(c => !c.IsDeleted)
+            .MapTo<PropertyViewDto>());
     }
 
     public async Task<PropertyViewDto> GetByIdAsync(long id)

@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class CategoryService : ICategoryService
 {
     private readonly IRepository<Category> categoryRepository;
+
     public CategoryService(IRepository<Category> categoryRepository)
     {
         this.categoryRepository = categoryRepository;
     }
+
     public async Task<CategoryViewDto> CreateAsync(CategoryCreateDto category)
     {
         var existCategory = await categoryRepository
@@ -26,10 +28,12 @@ public class CategoryService : ICategoryService
         if (existCategory != null)
             throw new CustomException(409, "Category already exist");
 
-        var createUser = await categoryRepository.InsertAsync(existCategory);
+        existCategory = category.MapTo<Category>();
+
+        var createCategory = await categoryRepository.InsertAsync(existCategory);
         await categoryRepository.SaveAsync();
 
-        return createUser.MapTo<CategoryViewDto>();
+        return createCategory.MapTo<CategoryViewDto>();
     }
 
     public async Task<bool> DeleteAsync(long id)
@@ -48,7 +52,9 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<CategoryViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(categoryRepository.SelectAllAsQueryable().MapTo<CategoryViewDto>());
+        return await Task.FromResult(categoryRepository.SelectAllAsQueryable()
+                .Where(c => !c.IsDeleted)
+                .MapTo<CategoryViewDto>());
     }
 
     public async Task<CategoryViewDto> GetByIdAsync(long id)

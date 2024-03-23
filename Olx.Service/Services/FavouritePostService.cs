@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
+using Olx.Service.DTOs.Categories;
 using Olx.Service.DTOs.FavouritePosts;
 using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
@@ -8,10 +9,10 @@ using Olx.Service.Interfaces;
 
 namespace Olx.Service.Services;
 
-public class FavourtePostService : IFavouritePostService
+public class FavouritePostService : IFavouritePostService
 {
     private readonly IRepository<FavouritePost> favouritePostRepository;
-    public FavourtePostService(IRepository<FavouritePost> favouritePostRepository)
+    public FavouritePostService(IRepository<FavouritePost> favouritePostRepository)
     {
         this.favouritePostRepository = favouritePostRepository;
     }
@@ -25,7 +26,7 @@ public class FavourtePostService : IFavouritePostService
 
         if (existFavouritePost != null)
             throw new CustomException(409, "FavouritePost already exist");
-
+        existFavouritePost = favouritePost.MapTo<FavouritePost>();
         var createFavouritePost = await favouritePostRepository.InsertAsync(existFavouritePost);
         await favouritePostRepository.SaveAsync();
 
@@ -48,7 +49,9 @@ public class FavourtePostService : IFavouritePostService
 
     public async Task<IEnumerable<FavouritePostViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(favouritePostRepository.SelectAllAsQueryable().MapTo<FavouritePostViewDto>());
+        return await Task.FromResult(favouritePostRepository.SelectAllAsQueryable()
+                .Where(c => !c.IsDeleted)
+                .MapTo<FavouritePostViewDto>());
     }
 
     public async Task<FavouritePostViewDto> GetByIdAsync(long id)

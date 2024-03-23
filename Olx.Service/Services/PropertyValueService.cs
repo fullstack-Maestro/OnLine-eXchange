@@ -39,7 +39,9 @@ public class PropertyValueService : IPropertyValueService
 
     public async Task<IEnumerable<PropertyValueViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(propertyValueRepository.SelectAllAsQueryable().MapTo<PropertyValueViewDto>());
+        return await Task.FromResult(propertyValueRepository.SelectAllAsQueryable()
+            .Where(c => !c.IsDeleted)
+            .MapTo<PropertyValueViewDto>());
     }
 
     public async Task<PropertyValueViewDto> GetByIdAsync(long id)

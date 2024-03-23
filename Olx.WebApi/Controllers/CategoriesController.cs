@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Olx.Service.DTOs.Categories;
 using Olx.Service.Interfaces;
 
@@ -37,8 +40,15 @@ namespace Olx.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<CategoryViewDto>> AddCategory(CategoryCreateDto categoryCreateDto)
         {
-            var addedCategory = await _categoryService.CreateAsync(categoryCreateDto);
-            return Ok(addedCategory);
+            try
+            { 
+                var addedCategory = await _categoryService.CreateAsync(categoryCreateDto);
+                return Ok(addedCategory);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]

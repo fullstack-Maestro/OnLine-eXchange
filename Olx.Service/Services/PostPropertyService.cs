@@ -26,6 +26,7 @@ public class PostPropertyService : IPostPropertyService
         if (existPostProperty != null)
             throw new CustomException(409, "PostProperty already exist");
 
+        existPostProperty = postProperty.MapTo<PostProperty>();
         var createUser = await postPropertyRepository.InsertAsync(existPostProperty);
         await postPropertyRepository.SaveAsync();
 
@@ -48,7 +49,9 @@ public class PostPropertyService : IPostPropertyService
 
     public async Task<IEnumerable<PostPropertyViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(postPropertyRepository.SelectAllAsQueryable().MapTo<PostPropertyViewDto>());
+        return await Task.FromResult(postPropertyRepository.SelectAllAsQueryable()
+            .Where(c => !c.IsDeleted)
+            .MapTo<PostPropertyViewDto>());
     }
 
     public async Task<PostPropertyViewDto> GetByIdAsync(long id)

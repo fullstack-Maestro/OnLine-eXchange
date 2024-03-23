@@ -25,6 +25,7 @@ public class UserService : IUserService
 
         if (existUser != null)
             throw new CustomException(409, "User already exist");
+        existUser = user.MapTo<User>();
 
         var createUser = await userRepository.InsertAsync(existUser);
         await userRepository.SaveAsync();
@@ -48,7 +49,9 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(userRepository.SelectAllAsQueryable().MapTo<UserViewDto>());
+        return await Task.FromResult(userRepository.SelectAllAsQueryable()
+            .Where(c => !c.IsDeleted)
+            .MapTo<UserViewDto>());
     }
 
     public async Task<UserViewDto> GetByIdAsync(long id)

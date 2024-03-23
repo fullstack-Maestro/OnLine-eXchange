@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Olx.DataAccess.IRepositories;
-using Olx.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Olx.Service.DTOs.Posts;
-using Olx.Service.Extentions;
+using Olx.Service.Interfaces;
+using Olx.Service.DTOs.PostProperties;
+using Olx.Service.Services;
 
 namespace Olx.WebApi.Controllers
 {
@@ -10,83 +13,66 @@ namespace Olx.WebApi.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly IRepository<Post> _postRepository;
+        private readonly IPostService _postService;
 
-        public PostsController(IRepository<Post> postRepository)
+        public PostsController(IPostService postService)
         {
-            _postRepository = postRepository;
+            _postService = postService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PostViewDto>>> GetAllPosts()
+        public async Task<ActionResult<IEnumerable<PostViewDto>>> GetAllPosts()
         {
-            var posts = _postRepository.SelectAllAsEnumerable()
-                .Where(post => !post.IsDeleted)
-                .ToList();
-            List<PostViewDto> postViews = new List<PostViewDto>();
-            foreach (var post in posts)
-            {
-                postViews.Add(post.MapTo<PostViewDto>());
-            }
-            return Ok(postViews);
+            var posts = await _postService.GetAllAsync();
+            return Ok(posts);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<PostViewDto>> GetPostById(long id)
         {
-            var post = await _postRepository.SelectByIdAsync(id);
+            var post = await _postService.GetByIdAsync(id);
             if (post == null)
             {
                 return NotFound("Post not found.");
             }
 
-            var postView = post.MapTo<PostViewDto>();
-            return Ok(postView);
+            return Ok(post);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Post>> AddPost(PostCreateDto createPost)
+        public async Task<ActionResult<PostViewDto>> AddPost(PostCreateDto createPost)
         {
-            var post = createPost.MapTo<Post>();
-            await _postRepository.InsertAsync(post);
-            await _postRepository.SaveAsync();
-
-            return Ok(createPost);
+            try
+            {
+                var addedPost = await _postService.CreateAsync(createPost);
+                return Ok(addedPost);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Post>> UpdatePost(long id, PostUpdateDto updatePost)
+        public async Task<ActionResult<PostViewDto>> UpdatePost(long id, PostUpdateDto updatePost)
         {
-            var existingPost = await _postRepository.SelectByIdAsync(id);
-            if (existingPost == null)
+            var updatedPost = await _postService.UpdateAsync(id, updatePost);
+            if (updatedPost == null)
             {
                 return NotFound("Post not found.");
             }
 
-            existingPost.Title = updatePost.Title;
-            existingPost.Description = updatePost.Description;
-            existingPost.Price = updatePost.Price;
-            existingPost.CategoryId = updatePost.CategoryId;
-            existingPost.CityOrRegion = updatePost.CityOrRegion;
-            existingPost.District = updatePost.District;
-            existingPost.IsLeft = updatePost.IsLeft;
-
-            await _postRepository.SaveAsync();
-
-            return Ok(existingPost);
+            return Ok(updatedPost);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePost(long id)
         {
-            var existingPost = await _postRepository.SelectByIdAsync(id);
-            if (existingPost == null)
+            var isDeleted = await _postService.DeleteAsync(id);
+            if (!isDeleted)
             {
                 return NotFound("Post not found.");
             }
-
-            await _postRepository.DeleteAsync(existingPost);
-            await _postRepository.SaveAsync();
 
             return NoContent();
         }
