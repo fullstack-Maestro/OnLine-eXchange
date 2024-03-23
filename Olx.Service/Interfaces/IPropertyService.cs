@@ -17,7 +17,7 @@ public interface IPropertyService
     /// <param name="id"></param>
     /// <param name="property"></param>
     /// <returns></returns>
-    Task<PropertyViewDto> UpdateAsync(long id, PropertyUpdateDto property);
+    Task<PropertyViewDto> UpdateAsync(long id, PropertyUpdateDto property, bool isDeleted = false);
 
     /// <summary>
     /// Delete exist property via ID

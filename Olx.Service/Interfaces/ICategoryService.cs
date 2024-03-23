@@ -17,7 +17,7 @@ public interface ICategoryService
     /// <param name="id"></param>
     /// <param name="category"></param>
     /// <returns></returns>
-    Task<CategoryViewDto> UpdateAsync(long id, CategoryUpdateDto category);
+    Task<CategoryViewDto> UpdateAsync(long id, CategoryUpdateDto category,bool isDeleted = false);
 
     /// <summary>
     /// Delete exist category via ID
