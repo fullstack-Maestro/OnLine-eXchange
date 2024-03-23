@@ -17,7 +17,7 @@ public interface IMessageService
     /// <param name="id"></param>
     /// <param name="message"></param>
     /// <returns></returns>
-    Task<MessageViewDto> UpdateAsync(long id, MessageUpdateDto message);
+    Task<MessageViewDto> UpdateAsync(long id, MessageUpdateDto message, bool isUsesDeleted);
 
     /// <summary>
     /// Delete exist message via ID

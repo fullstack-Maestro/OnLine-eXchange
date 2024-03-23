@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Olx.DataAccess.Repositories;
+using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.PostProperties;
-using Olx.Service.DTOs.Users;
 using Olx.Service.Extentions;
 using Olx.Service.Interfaces;
-using System.ComponentModel.Design;
 
 namespace Olx.Service.Services;
 
@@ -28,7 +26,7 @@ public class PostPropertyService : IPostPropertyService
             throw new Exception("Already exist");
 
         var createUser = await postPropertyRepository.InsertAsync(existPostProperty);
-        await postPropertyRepository.SaveChangesAsync();
+        await postPropertyRepository.SaveAsync();
 
         return createUser.MapTo<PostPropertyViewDto>();
     }
@@ -42,7 +40,7 @@ public class PostPropertyService : IPostPropertyService
         existPostProperty.DeletedAt = DateTime.UtcNow;
 
         await postPropertyRepository.DeleteAsync(existPostProperty);
-        await postPropertyRepository.SaveChangesAsync();
+        await postPropertyRepository.SaveAsync();
 
         return true;
     }
@@ -79,7 +77,7 @@ public class PostPropertyService : IPostPropertyService
         existPostProperty.UpdatedAt = DateTime.UtcNow;
 
         await postPropertyRepository.UpdateAsync(existPostProperty);
-        await postPropertyRepository.SaveChangesAsync();
+        await postPropertyRepository.SaveAsync();
 
         return existPostProperty.MapTo<PostPropertyViewDto>();
     }
