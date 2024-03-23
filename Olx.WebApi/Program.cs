@@ -1,51 +1,18 @@
-using Microsoft.EntityFrameworkCore;
-using Olx.DataAccess.Contexts;
-using Olx.DataAccess.Repositories;
-using Olx.Domain.Configurations;
-using Olx.Domain.Entities;
+using Olx.WebApi.Startups;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Olx.WebApi;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-
-optionsBuilder.UseNpgsql(Constants.CONNECTION_STRING, x => x.MigrationsAssembly("Olx.DataAccess"));
-
-AppDbContext appDbContext = new AppDbContext(optionsBuilder.Options);
-
-appDbContext.Database.Migrate();
-
-builder.Services.AddDbContext<AppDbContext>();
-
-// Add the following line in the ConfigureServices method of your Startup class
-builder.Services.AddScoped<IRepository<User>, Repository<User>>();
-builder.Services.AddScoped<IRepository<Post>, Repository<Post>>();
-builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
-builder.Services.AddScoped<IRepository<Property>, Repository<Property>>();
-builder.Services.AddScoped<IRepository<PropertyValue>, Repository<PropertyValue>>();
-builder.Services.AddScoped<IRepository<PostProperty>, Repository<PostProperty>>();
-builder.Services.AddScoped<IRepository<Message>, Repository<Message>>();
-builder.Services.AddScoped<IRepository<FavouritePost>, Repository<FavouritePost>>();
-
-// Add the following line in the ConfigureServices method of your Startup class
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
