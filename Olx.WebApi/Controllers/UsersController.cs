@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Olx.Service.DTOs.Transactions;
 using Olx.Service.DTOs.Users;
 using Olx.Service.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Olx.WebApi.Controllers
 {
@@ -18,20 +22,34 @@ namespace Olx.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserViewDto>>> GetAllUsers()
         {
-            var users = await _userService.GetAllAsync();
-            return Ok(users);
+            try
+            {
+                var users = await _userService.GetAllAsync();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserViewDto>> GetUserById(long id)
         {
-            var user = await _userService.GetByIdAsync(id);
-            if (user == null)
+            try
             {
-                return NotFound("User not found.");
-            }
+                var user = await _userService.GetByIdAsync(id);
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
 
-            return Ok(user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -51,25 +69,68 @@ namespace Olx.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<UserViewDto>> UpdateUser(long id, UserUpdateDto userUpdateDto)
         {
-            var updatedUser = await _userService.UpdateAsync(id, userUpdateDto);
-            if (updatedUser == null)
+            try
             {
-                return NotFound("User not found.");
-            }
+                var updatedUser = await _userService.UpdateAsync(id, userUpdateDto);
+                if (updatedUser == null)
+                {
+                    return NotFound("User not found.");
+                }
 
-            return Ok(updatedUser);
+                return Ok(updatedUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(long id)
         {
-            var isDeleted = await _userService.DeleteAsync(id);
-            if (!isDeleted)
+            try
             {
-                return NotFound("User not found.");
-            }
+                var isDeleted = await _userService.DeleteAsync(id);
+                if (!isDeleted)
+                {
+                    return NotFound("User not found.");
+                }
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{userId}/transactions")]
+        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetTransactionsByUserId(long userId)
+        {
+            try
+            {
+                var transactions = await _userService.GetTransactionsByUserIdAsync(userId);
+                return Ok(transactions);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("transactions")]
+        public async Task<ActionResult<TransactionViewDto>> CreateTransaction(TransactionCreateDto transactionCreateDto)
+        {
+            try
+            {
+                var createdTransaction = await _userService.CreateTransactionAsync(transactionCreateDto);
+                return Ok(createdTransaction);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
+
 }
