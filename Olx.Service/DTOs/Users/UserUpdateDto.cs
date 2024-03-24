@@ -7,5 +7,4 @@ public class UserUpdateDto
     public string Gmail { get; set; }
     public string Password { get; set; }
     public byte[] ProfilePicture { get; set; }
-    public bool IsVip { get; set; } = false;
 }

@@ -10,5 +10,4 @@ public class User : Auditable
     public string Password { get; set; }
     public byte[] ProfilePicture { get; set; }
     public decimal Balance { get; set; }
-    public bool IsVip { get; set; } = false;
 }
