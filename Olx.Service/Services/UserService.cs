@@ -76,7 +76,6 @@ public class UserService : IUserService
 
         existUser.Name = user.Name;
         existUser.Gmail = user.Gmail;
-        existUser.IsVip = user.IsVip;
         existUser.Password = user.Password;
         existUser.UpdatedAt = DateTime.UtcNow;
         existUser.PhoneNumber = user.PhoneNumber;
