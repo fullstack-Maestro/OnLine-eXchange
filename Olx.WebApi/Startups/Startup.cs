@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using Olx.DataAccess.Contexts;
 using Olx.DataAccess.IRepositories;
 using Olx.DataAccess.Repositories;
+using Olx.DataAccess.SeedData;
 using Olx.Domain.Configurations;
 using Olx.Domain.Entities;
 using Olx.Service.Interfaces;
@@ -30,6 +31,10 @@ namespace Olx.WebApi.Startups
             AppDbContext appDbContext = new AppDbContext(optionsBuilder.Options);
 
             appDbContext.Database.Migrate();
+
+            var seedData = new SeedData(appDbContext);
+
+            seedData.Initialize();
 
             services.AddDbContext<AppDbContext>();
 
