@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Olx.Service.DTOs.Posts;
 using Olx.Service.Interfaces;
-using Olx.Service.DTOs.PostProperties;
-using Olx.Service.Services;
 
 namespace Olx.WebApi.Controllers
 {

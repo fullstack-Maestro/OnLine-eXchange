@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
 using Olx.Domain.Entities;
-using Olx.Service.DTOs.Categories;
 using Olx.Service.DTOs.FavouritePosts;
 using Olx.Service.Exceptions;
 using Olx.Service.Extentions;
