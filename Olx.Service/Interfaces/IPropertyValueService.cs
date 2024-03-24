@@ -16,8 +16,8 @@ public interface IPropertyValueService
     /// </summary>
     /// <param name="id"></param>
     /// <param name="property"></param>
+    /// <param name="isDeleted"></param>
     /// <returns></returns>
-
     Task<PropertyValueViewDto> UpdateAsync(long id, PropertyValueUpdateDto property, bool isDeleted = false);
 
     /// <summary>

@@ -16,8 +16,8 @@ public interface IFavouritePostService
     /// </summary>
     /// <param name="id"></param>
     /// <param name="favourite"></param>
+    /// <param name="isDeleted"></param>
     /// <returns></returns>
-
     Task<FavouritePostViewDto> UpdateAsync(long id, FavouritePostUpdateDto favourite, bool isDeleted = false);
 
     /// <summary>

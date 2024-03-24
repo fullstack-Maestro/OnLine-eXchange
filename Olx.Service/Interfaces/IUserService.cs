@@ -16,8 +16,8 @@ public interface IUserService
     /// </summary>
     /// <param name="id"></param>
     /// <param name="user"></param>
+    /// <param name="isDeleted"></param>
     /// <returns></returns>
-
     Task<UserViewDto> UpdateAsync(long id, UserUpdateDto user, bool isDeleted = false);
 
     /// <summary>
