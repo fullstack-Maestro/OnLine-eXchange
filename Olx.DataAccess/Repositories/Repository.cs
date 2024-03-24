@@ -9,6 +9,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
 {
     private readonly AppDbContext context;
     private readonly DbSet<TEntity> entities;
+
     public Repository(AppDbContext context)
     {
         this.context = context;

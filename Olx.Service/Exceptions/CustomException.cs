@@ -6,6 +6,6 @@ public class CustomException : Exception
 
     public CustomException(int statusCode, string message) : base(message)
     {
-        this.StatusCode = statusCode;
+        StatusCode = statusCode;
     }
 }

@@ -16,8 +16,8 @@ public interface IMessageService
     /// </summary>
     /// <param name="id"></param>
     /// <param name="message"></param>
+    /// <param name="isDeleted"></param>
     /// <returns></returns>
-
     Task<MessageViewDto> UpdateAsync(long id, MessageUpdateDto message, bool isDeleted = false);
 
     /// <summary>
