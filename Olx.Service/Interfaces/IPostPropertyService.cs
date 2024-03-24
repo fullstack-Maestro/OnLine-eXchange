@@ -35,7 +35,7 @@ public interface IPostPropertyService
     Task<PostPropertyViewDto> GetByIdAsync(long id);
 
     /// <summary>
-    /// Get list of exist postProperties 
+    /// Get list of exist postProperties
     /// </summary>
     /// <returns></returns>
     Task<IEnumerable<PostPropertyViewDto>> GetAllAsync();

@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class PropertyService : IPropertyService
 {
     private readonly IRepository<Property> propertyRepository;
+
     public PropertyService(IRepository<Property> propertyRepository)
     {
         this.propertyRepository = propertyRepository;
     }
+
     public async Task<PropertyViewDto> CreateAsync(PropertyCreateDto property)
     {
         var existProperty = await propertyRepository
@@ -56,7 +58,6 @@ public class PropertyService : IPropertyService
 
     public async Task<PropertyViewDto> GetByIdAsync(long id)
     {
-
         var existProperty = await propertyRepository.SelectByIdAsync(id)
             ?? throw new CustomException(404, "Property not found");
 

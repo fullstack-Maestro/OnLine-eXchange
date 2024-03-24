@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class FavouritePostService : IFavouritePostService
 {
     private readonly IRepository<FavouritePost> favouritePostRepository;
+
     public FavouritePostService(IRepository<FavouritePost> favouritePostRepository)
     {
         this.favouritePostRepository = favouritePostRepository;
     }
+
     public async Task<FavouritePostViewDto> CreateAsync(FavouritePostCreateDto favouritePost)
     {
         var existFavouritePost = await favouritePostRepository

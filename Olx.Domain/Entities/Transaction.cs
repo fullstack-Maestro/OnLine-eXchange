@@ -11,6 +11,7 @@ public class Transaction : Auditable
 
     // Navigation properties
     public User Customer { get; set; }
+
     public User Seller { get; set; }
     public Post Post { get; set; }
 }

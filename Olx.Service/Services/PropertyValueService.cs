@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class PropertyValueService : IPropertyValueService
 {
     private readonly IRepository<PropertyValue> propertyValueRepository;
+
     public PropertyValueService(IRepository<PropertyValue> propertyValueRepository)
     {
         this.propertyValueRepository = propertyValueRepository;
     }
+
     public async Task<PropertyValueViewDto> CreateAsync(PropertyValueCreateDto propertyValue)
     {
         var createPropertyValue = await propertyValueRepository.InsertAsync(propertyValue.MapTo<PropertyValue>());
