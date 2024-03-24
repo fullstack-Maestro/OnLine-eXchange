@@ -121,9 +121,9 @@ namespace Olx.Service.Services
                     transactionViewDto.CustomerName = user.Name;
                 }
 
-                if (transactionViewDto.SellerId == user.Id)
+                if (transactionViewDto.SellerId == seller.Id)
                 {
-                    transactionViewDto.SellerName = user.Name;
+                    transactionViewDto.SellerName = seller.Name;
                 }
             }
 
@@ -146,6 +146,11 @@ namespace Olx.Service.Services
                 throw new CustomException(404, "Post sotib bulindi");
             }
 
+            if (seller.Id != post.UserId)
+            {
+                throw new CustomException(404, "Post sizga tegishli emas");
+            }
+
             if (customer.Id == seller.Id)
             {
                 throw new CustomException(409, "Uzizni mahsulotizni sotib ola olmaysiz!");
@@ -158,7 +163,10 @@ namespace Olx.Service.Services
                 PostId = post.Id,
                 Amount = post.Price
             };
-
+            if (customer.Balance < post.Price)
+            {
+                throw new CustomException(409, "Balansingizda mablag' yetarli emas!");
+            }
             customer.Balance -= post.Price;
             seller.Balance += post.Price;
             post.IsLeft = false;

@@ -22,17 +22,16 @@ public class PostService : IPostService
         var existPost = await postRepository
                              .SelectAllAsQueryable()
                              .FirstOrDefaultAsync(p => p.UserId == post.UserId && p.Title == post.Title);
+        
         if (existPost != null && existPost.IsDeleted)
             return await UpdateAsync(existPost.Id, post.MapTo<PostUpdateDto>(), true);
 
-        if (existPost != null)
-            throw new CustomException(409, "Post already exist");
-
         existPost = post.MapTo<Post>();
-        var createUser = await postRepository.InsertAsync(existPost);
+        var createPost = await postRepository.InsertAsync(existPost);
         await postRepository.SaveAsync();
 
-        return createUser.MapTo<PostViewDto>();
+        return createPost.MapTo<PostViewDto>();
+        
     }
 
     public async Task<bool> DeleteAsync(long id)
