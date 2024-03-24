@@ -13,5 +13,5 @@ public class Post : Auditable
     public Category Category { get; set; }
     public string CityOrRegion { get; set; }
     public string District { get; set; }
-    public bool IsLeft = true;
+    public bool IsLeft { get; set; } = true;
 }

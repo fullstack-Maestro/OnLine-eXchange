@@ -141,15 +141,31 @@ namespace Olx.Service.Services
             var post = await postRepository.SelectByIdAsync(transaction.PostId)
                        ?? throw new CustomException(404, "Post not found");
 
+            if (!post.IsLeft)
+            {
+                throw new CustomException(404, "Post sotib bulindi");
+            }
+
+            if (customer.Id == seller.Id)
+            {
+                throw new CustomException(409, "Uzizni mahsulotizni sotib ola olmaysiz!");
+            }
+
             var newTransaction = new Transaction
             {
                 CustomerId = customer.Id,
                 SellerId = seller.Id,
                 PostId = post.Id,
-                Amount = post.Price // Assign the Price property of the Post entity to the Amount property of the newTransaction
+                Amount = post.Price
             };
 
+            customer.Balance -= post.Price;
+            seller.Balance += post.Price;
+            post.IsLeft = false;
+
             await transactionRepository.InsertAsync(newTransaction);
+            await userRepository.SaveAsync();
+            await postRepository.SaveAsync();
             await transactionRepository.SaveAsync();
 
             var transactionView = new TransactionViewDto
@@ -164,6 +180,22 @@ namespace Olx.Service.Services
             };
 
             return transactionView;
+        }
+
+        public async Task AddMoneyToBalance(long userId, decimal amount)
+        {
+            if (amount < 0)
+            { 
+                throw new CustomException(404, "0 dan kichik pul kiritildi");
+            }
+
+            var user = await userRepository.SelectByIdAsync(userId)
+                       ?? throw new CustomException(404, "User not found");
+
+            user.Balance += amount;
+
+            await userRepository.UpdateAsync(user);
+            await userRepository.SaveAsync();
         }
     }
 }

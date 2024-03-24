@@ -10,5 +10,5 @@ public class PostViewDto
     public long CategoryId { get; set; }
     public string CityOrRegion { get; set; }
     public string District { get; set; }
-    public bool IsLeft = true;
+    public bool IsLeft { get; set; } = true;
 }

@@ -51,8 +51,9 @@ public class PostService : IPostService
 
     public async Task<IEnumerable<PostViewDto>> GetAllAsync()
     {
-        return await Task.FromResult(postRepository.SelectAllAsQueryable()
+        return await Task.FromResult(postRepository.SelectAllAsEnumerable()
             .Where(c => !c.IsDeleted)
+            .Where(c => c.IsLeft)
             .MapTo<PostViewDto>());
     }
 
