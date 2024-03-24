@@ -25,13 +25,18 @@ namespace Olx.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryViewDto>> GetCategoryById(long id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
-            if (category == null)
+            try
+            {
+                var category = await _categoryService.GetByIdAsync(id);
+
+                return Ok(category);
+            }
+            catch (Exception e)
             {
                 return NotFound("Category not found.");
             }
 
-            return Ok(category);
+
         }
 
         [HttpPost]
@@ -68,8 +73,10 @@ namespace Olx.WebApi.Controllers
             {
                 return NotFound("Category not found.");
             }
-
-            return NoContent();
+            else
+            {
+                return Ok("Successfully Deleted!");
+            }
         }
     }
 }
