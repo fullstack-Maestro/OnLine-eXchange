@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using Olx.DataAccess.Contexts;
 using Olx.DataAccess.IRepositories;
 using Olx.DataAccess.Repositories;
+using Olx.Domain.Configurations;
 using Olx.Domain.Entities;
 using Olx.Service.Interfaces;
 using Olx.Service.Services;
@@ -22,10 +23,15 @@ namespace Olx.WebApi.Startups
         {
             services.AddControllers();
 
-            // Configure DbContext
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"),
-                    x => x.MigrationsAssembly("Olx.DataAccess")));
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+            optionsBuilder.UseNpgsql(Constants.CONNECTION_STRING, x => x.MigrationsAssembly("Olx.DataAccess"));
+
+            AppDbContext appDbContext = new AppDbContext(optionsBuilder.Options);
+
+            appDbContext.Database.Migrate();
+
+            services.AddDbContext<AppDbContext>();
 
             // Register repositories
             services.AddScoped<IRepository<User>, Repository<User>>();
@@ -36,6 +42,7 @@ namespace Olx.WebApi.Startups
             services.AddScoped<IRepository<PostProperty>, Repository<PostProperty>>();
             services.AddScoped<IRepository<Message>, Repository<Message>>();
             services.AddScoped<IRepository<FavouritePost>, Repository<FavouritePost>>();
+            services.AddScoped<IRepository<Transaction>, Repository<Transaction>>();
 
             // Register services
             services.AddScoped<IUserService, UserService>();
@@ -46,6 +53,7 @@ namespace Olx.WebApi.Startups
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IFavouritePostService, FavouritePostService>();
+            services.AddScoped<IRepository<Transaction>, Repository<Transaction>>();
 
             // Configure Swagger
             services.AddSwaggerGen(c =>

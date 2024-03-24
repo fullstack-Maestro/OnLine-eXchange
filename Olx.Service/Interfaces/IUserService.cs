@@ -1,4 +1,5 @@
-﻿using Olx.Service.DTOs.Users;
+﻿using Olx.Service.DTOs.Transactions;
+using Olx.Service.DTOs.Users;
 
 namespace Olx.Service.Interfaces;
 
@@ -39,4 +40,8 @@ public interface IUserService
     /// </summary>
     /// <returns></returns>
     Task<IEnumerable<UserViewDto>> GetAllAsync();
+
+    Task<IEnumerable<TransactionViewDto>> GetTransactionsByUserIdAsync(long userId);
+
+    Task<TransactionViewDto> CreateTransactionAsync(TransactionCreateDto transaction);
 }

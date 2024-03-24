@@ -82,6 +82,37 @@ public class AppDbContext : DbContext
 
         //----------------------------------------------------------------
 
+        // Transaction model
+
+        modelBuilder.Entity<Transaction>()
+            .HasKey(t => t.Id);
+
+        modelBuilder.Entity<Transaction>()
+            .Property(t => t.Amount)
+            .HasColumnType("decimal(18, 2)");
+
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.Customer)
+            .WithMany()
+            .HasForeignKey(t => t.CustomerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.Seller)
+            .WithMany()
+            .HasForeignKey(t => t.SellerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.Post)
+            .WithMany()
+            .HasForeignKey(t => t.PostId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Ended //////////////////////////////////
+
+        //----------------------------------------------------------------
+
         // Category model
 
         modelBuilder.Entity<Category>()
@@ -387,4 +418,5 @@ public class AppDbContext : DbContext
         // Ended //////////////////////////////////
         //----------------------------------------------------------------
     }
+
 }
