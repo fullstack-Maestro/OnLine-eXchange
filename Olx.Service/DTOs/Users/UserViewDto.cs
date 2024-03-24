@@ -8,4 +8,5 @@ public class UserViewDto
     public string Gmail { get; set; }
     public string Password { get; set; }
     public byte[] ProfilePicture { get; set; }
+    public decimal Balance { get; set; }
 }

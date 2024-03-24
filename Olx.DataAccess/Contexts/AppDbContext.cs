@@ -52,6 +52,11 @@ public class AppDbContext : DbContext
             .HasMaxLength(100);
 
         modelBuilder.Entity<User>()
+            .Property(u => u.Balance)
+            .HasColumnType("decimal(18, 2)")
+            .HasDefaultValue(0);
+
+        modelBuilder.Entity<User>()
             .Property(u => u.ProfilePicture)
             .HasColumnType("bytea");
 
