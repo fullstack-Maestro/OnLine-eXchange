@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class PostService : IPostService
 {
     private readonly IRepository<Post> postRepository;
+
     public PostService(IRepository<Post> postRepository)
     {
         this.postRepository = postRepository;
     }
+
     public async Task<PostViewDto> CreateAsync(PostCreateDto post)
     {
         var existPost = await postRepository
@@ -56,7 +58,6 @@ public class PostService : IPostService
 
     public async Task<PostViewDto> GetByIdAsync(long id)
     {
-
         var existPost = await postRepository.SelectByIdAsync(id)
             ?? throw new CustomException(404, "Post not found");
 

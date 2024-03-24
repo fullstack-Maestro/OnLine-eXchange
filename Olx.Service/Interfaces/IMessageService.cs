@@ -5,7 +5,7 @@ namespace Olx.Service.Interfaces;
 public interface IMessageService
 {
     /// <summary>
-    /// Create new message 
+    /// Create new message
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>

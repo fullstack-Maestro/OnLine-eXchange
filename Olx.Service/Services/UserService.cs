@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Olx.DataAccess.IRepositories;
-using Olx.DataAccess.Repositories;
 using Olx.Domain.Entities;
 using Olx.Service.DTOs.Transactions;
 using Olx.Service.DTOs.Users;
@@ -18,7 +17,7 @@ namespace Olx.Service.Services
 
         public UserService(
             IRepository<User> userRepository,
-            IRepository<Transaction> transactionRepository, 
+            IRepository<Transaction> transactionRepository,
             IRepository<Post> postRepository)
         {
             this.userRepository = userRepository;

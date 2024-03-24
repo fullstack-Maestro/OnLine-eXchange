@@ -365,7 +365,7 @@ public class AppDbContext : DbContext
         // Ended //////////////////////////////////
         //----------------------------------------------------------------
 
-        // Message model 
+        // Message model
 
         modelBuilder.Entity<Message>()
         .HasKey(m => m.Id);
@@ -418,5 +418,4 @@ public class AppDbContext : DbContext
         // Ended //////////////////////////////////
         //----------------------------------------------------------------
     }
-
 }

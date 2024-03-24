@@ -58,6 +58,5 @@ public class SeedData
             _context.PropertyValue.AddRange(propertyValues);
             _context.SaveChanges();
         }
-
     }
 }

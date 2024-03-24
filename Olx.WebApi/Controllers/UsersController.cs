@@ -2,9 +2,6 @@
 using Olx.Service.DTOs.Transactions;
 using Olx.Service.DTOs.Users;
 using Olx.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Olx.WebApi.Controllers
 {
@@ -132,5 +129,4 @@ namespace Olx.WebApi.Controllers
             }
         }
     }
-
 }

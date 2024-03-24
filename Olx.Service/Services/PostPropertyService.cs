@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class PostPropertyService : IPostPropertyService
 {
     private readonly IRepository<PostProperty> postPropertyRepository;
+
     public PostPropertyService(IRepository<PostProperty> postPropertyRepository)
     {
         this.postPropertyRepository = postPropertyRepository;
     }
+
     public async Task<PostPropertyViewDto> CreateAsync(PostPropertyCreateDto postProperty)
     {
         var existPostProperty = await postPropertyRepository

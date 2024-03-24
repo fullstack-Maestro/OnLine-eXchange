@@ -11,10 +11,12 @@ namespace Olx.Service.Services;
 public class MessageService : IMessageService
 {
     private readonly IRepository<Message> messageRepository;
+
     public MessageService(IRepository<Message> messageRepository)
     {
         this.messageRepository = messageRepository;
     }
+
     public async Task<MessageViewDto> CreateAsync(MessageCreateDto message)
     {
         var createUser = await messageRepository.InsertAsync(message.MapTo<Message>());
@@ -46,7 +48,6 @@ public class MessageService : IMessageService
 
     public async Task<MessageViewDto> GetByIdAsync(long id)
     {
-
         var existMessage = await messageRepository.SelectByIdAsync(id)
            ?? throw new CustomException(404, "Message not found");
 

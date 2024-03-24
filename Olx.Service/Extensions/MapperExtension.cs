@@ -27,7 +27,6 @@ public static class MapperExtension
     {
         var result = new List<T>();
 
-
         foreach (var obj in values)
         {
             var objType = obj.GetType();

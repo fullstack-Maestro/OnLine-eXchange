@@ -35,7 +35,7 @@ public interface ICategoryService
     Task<CategoryViewDto> GetByIdAsync(long id);
 
     /// <summary>
-    /// Get list of exist categories 
+    /// Get list of exist categories
     /// </summary>
     /// <returns></returns>
     Task<IEnumerable<CategoryViewDto>> GetAllAsync();
