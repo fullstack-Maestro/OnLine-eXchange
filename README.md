@@ -64,6 +64,10 @@ Special thanks to the developers and contributors of ASP.NET Core, Entity Framew
 
 For any inquiries or support, please contact jayxunfurkatovich@gmail.com.
 
+Database diagram link:
+
+https://dbdiagram.io/d/OnLine-eXchange-db-65f978feae072629ce64a4ae
+
 How to Run:
 
     Clone the repository to your local machine.
