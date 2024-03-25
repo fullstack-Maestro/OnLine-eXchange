@@ -148,12 +148,12 @@ namespace Olx.Service.Services
 
             if (seller.Id != post.UserId)
             {
-                throw new CustomException(404, "Post sizga tegishli emas");
+                throw new CustomException(404, "The post has been purchased");
             }
 
             if (customer.Id == seller.Id)
             {
-                throw new CustomException(409, "Uzizni mahsulotizni sotib ola olmaysiz!");
+                throw new CustomException(409, "You cannot buy your own post!");
             }
 
             var newTransaction = new Transaction
@@ -165,7 +165,7 @@ namespace Olx.Service.Services
             };
             if (customer.Balance < post.Price)
             {
-                throw new CustomException(409, "Balansingizda mablag' yetarli emas!");
+                throw new CustomException(409, "Your balance is insufficient!");
             }
             customer.Balance -= post.Price;
             seller.Balance += post.Price;
@@ -194,7 +194,7 @@ namespace Olx.Service.Services
         {
             if (amount < 0)
             { 
-                throw new CustomException(404, "0 dan kichik pul kiritildi");
+                throw new CustomException(404, "Amount less than 0 was entered");
             }
 
             var user = await userRepository.SelectByIdAsync(userId)
