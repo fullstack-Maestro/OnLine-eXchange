@@ -1,4 +1,5 @@
-﻿using Olx.DataAccess.Contexts;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Olx.DataAccess.Contexts;
 using Olx.Domain.Entities;
 
 namespace Olx.DataAccess.SeedData;
@@ -212,7 +213,17 @@ public class SeedData
 
         if (!_context.User.Any())
         {
+            var users = new List<User>()
+            {
+                new User { Id = 1, Name = "Faxrullo", Gmail = "faxrullofayzullayev@gmail.com", PhoneNumber = "+998 93 405 85 65", Password = "1234" },
+                new User { Id = 2, Name = "Jayxun", Gmail = "furkatovichj@gmail.com.", PhoneNumber = "+998 99 005 83 49", Password = "1234"},
+                new User { Id = 3, Name = "Komiljon", Gmail = "komiljonrahmatov@gmail.com", PhoneNumber = " +998 90 680 89 97", Password = "1234" },
+                new User { Id = 4, Name = "Diyorbek", Gmail = "muhammadjonovd793@gmail.com", PhoneNumber = "+998 91 201 57 02", Password = "1234" },
+                new User { Id = 5, Name = "Asrorbek", Gmail = "as.abrorov@gmail.com", PhoneNumber = " +998 90 051 16 21", Password = "1234" },
+            };
 
+            _context.User.AddRange(users);
+            _context.SaveChanges();
         }
     }
 }

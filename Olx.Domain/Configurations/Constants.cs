@@ -2,5 +2,5 @@
 
 public static class Constants
 {
-    public const string ConnectionString = "Server=satao.db.elephantsql.com;Database=yjeyrrml;User Id=yjeyrrml;Password=cqPnIhiHVDHnqOEt-RAud4Ve26hgHNUK";
+    public const string ConnectionString = "Server=rain.db.elephantsql.com;Database=pknhgkfl;User Id=pknhgkfl;Password=UvNvXWbbErJUx_VzgVAtd7fDERq2ZtSn";
 }
