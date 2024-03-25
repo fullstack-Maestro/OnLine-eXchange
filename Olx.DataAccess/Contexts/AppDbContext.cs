@@ -47,9 +47,14 @@ public class AppDbContext : DbContext
             .HasMaxLength(100);
 
         modelBuilder.Entity<User>()
-            .Property(u => u.Password)
+            .Property(u => u.Hash)
             .IsRequired()
             .HasMaxLength(100);
+        
+        modelBuilder.Entity<User>()
+            .Property(u => u.Salt)
+            .IsRequired()
+            .HasColumnType("bytea");
 
         modelBuilder.Entity<User>()
             .Property(u => u.Balance)
