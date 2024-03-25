@@ -22,7 +22,7 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(Constants.CONNECTION_STRING);
+        optionsBuilder.UseNpgsql(Constants.ConnectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
