@@ -28,7 +28,10 @@ public class PostPropertyService : IPostPropertyService
         if (existPostProperty != null)
             throw new CustomException(409, "PostProperty already exist");
 
+        var lists = postPropertyRepository.SelectAllAsEnumerable();
+
         existPostProperty = postProperty.MapTo<PostProperty>();
+        existPostProperty.Id = lists.Last().Id + 1;
         var createUser = await postPropertyRepository.InsertAsync(existPostProperty);
         await postPropertyRepository.SaveAsync();
 

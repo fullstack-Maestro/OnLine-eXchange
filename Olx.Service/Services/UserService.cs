@@ -37,7 +37,11 @@ namespace Olx.Service.Services
             if (existUser != null)
                 throw new CustomException(409, "User already exists");
 
+            var users = userRepository.SelectAllAsEnumerable();
+
             existUser = user.MapTo<User>();
+
+            existUser.Id = users.Last().Id + 1;
 
             var createUser = await userRepository.InsertAsync(existUser);
             await userRepository.SaveAsync();

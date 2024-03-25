@@ -29,12 +29,11 @@ public class CategoryService : ICategoryService
         if (existCategory != null)
             throw new CustomException(409, "Category already exist");
 
-        if (categoryRepository.SelectAllAsEnumerable().FirstOrDefault(c => c.Id == category.ParentId) is null)
-        {
-            throw new CustomException(404, "Category not found");
-        }
+        var categories = categoryRepository.SelectAllAsEnumerable();
 
         existCategory = category.MapTo<Category>();
+
+        existCategory.Id = categories.Last().Id + 1;
 
         var createCategory = await categoryRepository.InsertAsync(existCategory);
         await categoryRepository.SaveAsync();

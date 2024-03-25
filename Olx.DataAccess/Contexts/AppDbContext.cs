@@ -116,7 +116,7 @@ public class AppDbContext : DbContext
         // Category model
 
         modelBuilder.Entity<Category>()
-        .HasKey(c => c.Id);
+            .HasKey(c => c.Id);
 
         modelBuilder.Entity<Category>()
             .Property(c => c.Name)
