@@ -25,13 +25,16 @@ namespace Olx.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PostViewDto>> GetPostById(long id)
         {
-            var post = await _postService.GetByIdAsync(id);
-            if (post == null)
+            try
             {
-                return NotFound("Post not found.");
-            }
+                var post = await _postService.GetByIdAsync(id);
 
-            return Ok(post);
+                return Ok(post);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
         }
 
         [HttpPost]
@@ -56,7 +59,7 @@ namespace Olx.WebApi.Controllers
             {
                 return NotFound("Post not found.");
             }
-
+            
             return Ok(updatedPost);
         }
 
@@ -69,7 +72,7 @@ namespace Olx.WebApi.Controllers
                 return NotFound("Post not found.");
             }
 
-            return NoContent();
+            return Ok("Post deleted.");
         }
     }
 }

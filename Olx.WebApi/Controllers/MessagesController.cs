@@ -25,13 +25,16 @@ namespace Olx.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MessageViewDto>> GetMessageById(long id)
         {
-            var message = await _messageService.GetByIdAsync(id);
-            if (message == null)
+            try
             {
-                return NotFound("Message not found.");
-            }
+                var message = await _messageService.GetByIdAsync(id);
 
-            return Ok(message);
+                return Ok(message);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -62,7 +65,7 @@ namespace Olx.WebApi.Controllers
                 return NotFound("Message not found.");
             }
 
-            return NoContent();
+            return Ok("Message deleted.");
         }
     }
 }

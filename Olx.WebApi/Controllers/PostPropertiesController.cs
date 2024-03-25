@@ -51,13 +51,16 @@ namespace Olx.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<PostPropertyViewDto>> UpdatePostProperty(long id, PostPropertyUpdateDto postPropertyUpdateDto)
         {
-            var updatedPostProperty = await _postPropertyService.UpdateAsync(id, postPropertyUpdateDto);
-            if (updatedPostProperty == null)
+            try
             {
-                return NotFound("PostProperty not found.");
+                var updatedPostProperty = await _postPropertyService.UpdateAsync(id, postPropertyUpdateDto);
+                
+                return Ok(updatedPostProperty);
             }
-
-            return Ok(updatedPostProperty);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
@@ -69,7 +72,7 @@ namespace Olx.WebApi.Controllers
                 return NotFound("PostProperty not found.");
             }
 
-            return NoContent();
+            return Ok("Post property deleted.");
         }
     }
 }
