@@ -89,7 +89,8 @@ namespace Olx.Service.Services
 
             existUser.Name = user.Name;
             existUser.Gmail = user.Gmail;
-            existUser.Password = user.Password;
+            existUser.Hash = user.Hash;
+            existUser.Salt = user.Salt;
             existUser.UpdatedAt = DateTime.UtcNow;
             existUser.PhoneNumber = user.PhoneNumber;
             existUser.ProfilePicture = user.ProfilePicture;

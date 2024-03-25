@@ -5,6 +5,7 @@ public class UserUpdateDto
     public string Name { get; set; }
     public string PhoneNumber { get; set; }
     public string Gmail { get; set; }
-    public string Password { get; set; }
+    public string Hash { get; set; }
+    public byte[] Salt { get; set; }
     public byte[] ProfilePicture { get; set; }
 }
