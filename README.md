@@ -70,6 +70,8 @@ Database diagram link:
 
 https://dbdiagram.io/d/OnLine-eXchange-db-65f978feae072629ce64a4ae
 
+![image](https://github.com/fullstack-Maestro/OnLine-eXchange/assets/138248626/f051de06-2108-4cf6-afd5-ea6de5ec87e3)
+
 How to Run:
 
     Clone the repository to your local machine.
