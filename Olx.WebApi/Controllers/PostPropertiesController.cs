@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Olx.Service.DTOs.PostProperties;
 using Olx.Service.Interfaces;
+using Olx.Service.Services;
 
 namespace Olx.WebApi.Controllers
 {
@@ -25,13 +26,16 @@ namespace Olx.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PostPropertyViewDto>> GetPostPropertyById(long id)
         {
-            var postProperty = await _postPropertyService.GetByIdAsync(id);
-            if (postProperty == null)
+            try
+            {
+                var postProperty = await _postPropertyService.GetByIdAsync(id);
+
+                return Ok(postProperty);
+            }
+            catch (Exception ex)
             {
                 return NotFound("PostProperty not found.");
             }
-
-            return Ok(postProperty);
         }
 
         [HttpPost]

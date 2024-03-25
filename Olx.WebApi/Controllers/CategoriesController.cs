@@ -31,7 +31,7 @@ namespace Olx.WebApi.Controllers
 
                 return Ok(category);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 return NotFound("Category not found.");
             }
