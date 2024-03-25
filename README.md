@@ -1,4 +1,6 @@
-# OLX Clone using ASP.NET Core Web API
+# OnLine-eXchange
+
+OLX Clone using ASP.NET Core Web API
 
 This project is a clone of the OLX website implemented using ASP.NET Core Web API. The goal of this project is to replicate the core functionalities of OLX, providing users with a platform to buy and sell goods.
 Features:
