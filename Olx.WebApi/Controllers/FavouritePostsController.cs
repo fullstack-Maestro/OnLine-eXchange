@@ -25,14 +25,18 @@ namespace Olx.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<FavouritePostViewDto>> GetFavouritePostById(long id)
         {
-            var favouritePost = await _favouritePostService.GetByIdAsync(id);
-            if (favouritePost == null)
+            try
             {
-                return NotFound("Favorite Post not found.");
-            }
+                var favouritePost = await _favouritePostService.GetByIdAsync(id);
 
-            return Ok(favouritePost);
+                return Ok(favouritePost);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpPost]
         public async Task<ActionResult<FavouritePostViewDto>> AddFavouritePost(FavouritePostCreateDto favouritePostCreateDto)
@@ -57,7 +61,7 @@ namespace Olx.WebApi.Controllers
                 return NotFound("FavouritePost not found.");
             }
 
-            return NoContent();
+            return Ok("Favourite Post deleted.");
         }
     }
 }

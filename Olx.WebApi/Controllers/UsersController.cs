@@ -93,7 +93,7 @@ namespace Olx.WebApi.Controllers
                     return NotFound("User not found.");
                 }
 
-                return NoContent();
+                return Ok("User deleted.");
             }
             catch (Exception ex)
             {

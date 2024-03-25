@@ -25,13 +25,20 @@ namespace Olx.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PropertyViewDto>> GetPropertyById(long id)
         {
-            var property = await _propertyService.GetByIdAsync(id);
-            if (property == null)
+            try
             {
-                return NotFound("Property not found.");
-            }
+                var property = await _propertyService.GetByIdAsync(id);
+                if (property == null)
+                {
+                    return NotFound("Property not found.");
+                }
 
-            return Ok(property);
+                return Ok(property);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -69,7 +76,7 @@ namespace Olx.WebApi.Controllers
                 return NotFound("Property not found.");
             }
 
-            return NoContent();
+            return Ok("Property deleted.");
         }
     }
 }
