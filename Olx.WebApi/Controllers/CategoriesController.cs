@@ -35,8 +35,6 @@ namespace Olx.WebApi.Controllers
             {
                 return NotFound("Category not found.");
             }
-
-
         }
 
         [HttpPost]
