@@ -19,6 +19,9 @@ public class PropertyValueService : IPropertyValueService
 
     public async Task<PropertyValueViewDto> CreateAsync(PropertyValueCreateDto propertyValue)
     {
+        var propertyValues = propertyValueRepository.SelectAllAsEnumerable();
+        var ProperasdtyValue = propertyValue.MapTo<PropertyValue>();
+        ProperasdtyValue.Id = propertyValues.Last().Id + 1;
         var createPropertyValue = await propertyValueRepository.InsertAsync(propertyValue.MapTo<PropertyValue>());
         await propertyValueRepository.SaveAsync();
 

@@ -28,7 +28,12 @@ public class PropertyService : IPropertyService
         if (existProperty != null)
             throw new CustomException(409, "Property already exist");
 
+        var lists = propertyRepository.SelectAllAsEnumerable();
+
         existProperty = property.MapTo<Property>();
+        
+        existProperty.Id = lists.Last().Id + 1;
+
         var createProperty = await propertyRepository.InsertAsync(existProperty);
         await propertyRepository.SaveAsync();
 
