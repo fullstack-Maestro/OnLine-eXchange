@@ -62,7 +62,7 @@ Acknowledgments:
 
 Special thanks to the developers and contributors of ASP.NET Core, Entity Framework Core, Swagger, and other open-source technologies used in this project.
 
-For any inquiries or support, please contact projectmaintainer@example.com.
+For any inquiries or support, please contact jayxunfurkatovich@gmail.com.
 
 How to Run:
 
