@@ -30,7 +30,7 @@ public class BalanceController : ControllerBase
         catch (Exception ex)
         {
             // Log the exception
-            return StatusCode(500, "An error occurred while adding money to the user's balance");
+            return StatusCode(500, ex.Message);
         }
     }
 }
