@@ -34,7 +34,7 @@ namespace Olx.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound("PostProperty not found.");
+                return NotFound(ex.Message);
             }
         }
 
